@@ -1,0 +1,12 @@
+.noover{    
+    max-width: 450px;
+    padding-right:50px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.rightspace{
+    padding-right: 50px;
+}
+.highligh:hover{
+    background-color: rgba(145, 143, 143, 0.281);
+}
