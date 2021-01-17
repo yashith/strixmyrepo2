@@ -13,6 +13,9 @@ urlpatterns = [
     path('resetpassword/',views.ResetPassword.as_view()),
 
     path('projectlist/',views.ProjectList.as_view()),
+    
+    #testpath
+    path('getTicket/',views.getTicket,name="get_Tickets"),
 
 ]
 

@@ -7,6 +7,7 @@ from .mixins import RoleRequiredMixin
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate
+from rest_framework.decorators import api_view
 from .models import * 
 
 
@@ -14,6 +15,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.tokens import default_token_generator
 from .MailService import *
 from django.utils.http import urlsafe_base64_decode
+from .serializer import TicketSerializer
 
 
 class Login(APIView):
@@ -161,3 +163,11 @@ class ProjectList(APIView):
         
     def OtherUser(self,user):
         return(Project.objects.filter(userlist=user))
+
+
+#BCLbacklog
+@api_view(['GET'])
+def getTicket(request):
+    tickets=Ticket.objects.all()
+    serializer=TicketSerializer(tickets,many=True)
+    return Response(serializer.data)
