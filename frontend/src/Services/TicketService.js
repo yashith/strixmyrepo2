@@ -1,55 +1,65 @@
 import API from './Base';
-import {useReducer,useEffect} from 'react'
+import { useReducer, useEffect } from 'react'
 import axios from 'axios'
 
 const ACTIONS = {
-    MAKE_REQUEST:'make-request',
-    GET_DATA:'get-data',
-    ERROR:'error',
+    MAKE_REQUEST: 'make-request',
+    GET_DATA: 'get-data',
+    ERROR: 'error',
 }
 
-function reducer(state,action){
-    switch(action.type){
+function reducer(state, action) {
+    switch (action.type) {
         case ACTIONS.MAKE_REQUEST:
-            return { loading:true, bugs:[] }
+            return { loading: true, bugs: [] }
         case ACTIONS.GET_DATA:
-            return { ...state, loading:false, bugs:action.payload.bugs }
+            return { ...state, loading: false, bugs: action.payload.bugs }
         case ACTIONS.ERROR:
-            return { ...state, loading:false, bugs:action.payload.error, bugs:[] }
+            return { ...state, loading: false, bugs: action.payload.error, bugs: [] }
         default:
             return state
     }
 }
 
-export default function useFetchBugs(params) {
+// export default function useFetchBugs(params) {
 
-    const initialState = {
-        bugs:[],
-        loading:true,
-        params:''
-    }
+//     const initialState = {
+//         bugs:[],
+//         loading:true,
+//         params:''
+//     }
 
-    const [state, dispatch] = useReducer(reducer, initialState)
+//     const [state, dispatch] = useReducer(reducer, initialState)
 
-    useEffect(()=>{
+//     useEffect(()=>{
 
-        dispatch({type:ACTIONS.MAKE_REQUEST})
-        API.get('projectlist/',{
-            params:{...params}
-        })
-        .then(res=>{
-            dispatch({
-                type: ACTIONS.GET_DATA,
-                payload:{bugs:res.data}
-            })
-        })
-        .catch((e)=>{
-            if(axios.isCancel(e))return
-            dispatch({type:ACTIONS.ERROR,payload:{error:e}})
-        })
+//         dispatch({type:ACTIONS.MAKE_REQUEST})
+//         API.get('projectlist/',{
+//             params:{...params}
+//         })
+//         .then(res=>{
+//             dispatch({
+//                 type: ACTIONS.GET_DATA,
+//                 payload:{bugs:res.data}
+//             })
+//         })
+//         .catch((e)=>{
+//             if(axios.isCancel(e))return
+//             dispatch({type:ACTIONS.ERROR,payload:{error:e}})
+//         })
 
-    },[params])    
+//     },[params])    
 
-    return state
-    
+//     return state
+
+// }
+
+//fetch tickets by Y
+export default function getTickets() {
+    let arr = []
+
+    API.get('getTicket/')
+        .then(response => { arr.push(response.data) })
+        .catch(err=>{console.log(err)})
+    return arr
 }

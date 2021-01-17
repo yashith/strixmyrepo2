@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import SetPagination from '../../Common/Pagination/Pagination';
 import { Table, Row, Col, Button, Card, NavLink, Form, FormControl, Modal, Badge } from 'react-bootstrap';
 import IssueForm from '../CreateIssue/IssueForm'
@@ -7,6 +7,8 @@ import './table.css';
 import { render } from '@testing-library/react';
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import './IssueBacklogBCL.scss'
+import getTickets from '../../../Services/TicketService';
+
 
 //my
 function bagetype(priority) {
@@ -34,6 +36,10 @@ function IssueBacklogBCL() {
     }
 
   }
+  useEffect(() => {
+    console.log(getTickets())
+     
+  },)
 
   return (
     <div className="">
