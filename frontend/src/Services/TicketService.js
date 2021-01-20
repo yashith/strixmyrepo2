@@ -55,11 +55,14 @@ function reducer(state, action) {
 // }
 
 //fetch tickets by Y
-export default function getTickets() {
+export default async function getTickets() {
     let arr = []
 
-    API.get('getTicket/')
-        .then(response => { arr.push(response.data) })
-        .catch(err=>{console.log(err)})
-    return arr
+    // API.get('getTicket/')
+    //     .then(response => { arr.push(response.data) })
+    //     .catch(err=>{console.log(err)})
+    // return arr
+    const response = await API.get('getTicket/');
+    const arrr=response.data; 
+    return(arrr);
 }

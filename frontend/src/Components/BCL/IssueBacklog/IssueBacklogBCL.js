@@ -14,11 +14,11 @@ import getTickets from '../../../Services/TicketService';
 function bagetype(priority) {
 
   switch (priority) {
-    case 'High':
+    case 'urgent':
       return 'danger';
-    case 'Medium':
+    case 'high':
       return 'warning';
-    case 'Low':
+    case 'medium':
       return 'success'
   }
 }
@@ -31,15 +31,20 @@ function IssueBacklogBCL() {
   function tableticket(e) {
     for (var i = 0; i < buglist.length; i++) {
       if (buglist[i].id === e) {
-        render(<Issuecard priority={buglist[i].priority} type={buglist[i].type} summary={buglist[i].summary} variant={bagetype(buglist[i].priority)} />);
+        render(<Issuecard priority={buglist[i].priority} type={buglist[i].type} summary={buglist[i].issuedescription} variant={bagetype(buglist[i].priority)} />);
       }
     }
 
   }
   useEffect(() => {
-    console.log(getTickets())
+    
+    async function fetchdata(){
+      let a=await getTickets()
+      setbuglist(a)
+    }
+    fetchdata()
      
-  },)
+  },[])
 
   return (
     <div className="">
@@ -134,7 +139,7 @@ function IssueBacklogBCL() {
                     buglist.map((bug) =>
                       <tr className="highligh" id={bug.id} onClick={() => { tableticket(bug.id) }} key={bug.id}>
                         <td>{'#' + bug.id}</td>
-                        <td className="noover"><div>{bug.title}</div></td>
+                        <td className="noover"><div>{bug.issuename}</div></td>
                         <td><Badge variant={bagetype(bug.priority)}>{bug.priority}</Badge></td>
                       </tr>
                     )
