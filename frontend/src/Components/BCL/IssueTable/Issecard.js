@@ -26,6 +26,9 @@ function IssueCard(props) {
                                 <Col>
                                     <h5>Priority : <span><Badge variant={props.variant}>{props.priority}</Badge></span></h5>
                                 </Col>
+                                <Col>
+                                    <h5>Severity : <span>{props.severity}</span></h5>
+                                </Col>
                             </Row>
                             <Row>
                                 <Col>

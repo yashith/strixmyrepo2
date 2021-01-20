@@ -20,7 +20,7 @@ function BCLHome(props){
                             <h1>{project.projectname}</h1>
                             <p>{project.description}</p>
                         </div>
-                        <NavLink to={"/Customer/IssueBacklog/" + project.id}>
+                        <NavLink to={{pathname:"/Customer/IssueBacklog/" + project.id,project:project.id}}>
                             <i class="fas fa-external-link-alt"></i>
                         </NavLink>
                     </div>

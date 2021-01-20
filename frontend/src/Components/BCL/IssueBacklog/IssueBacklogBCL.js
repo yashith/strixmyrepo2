@@ -1,11 +1,11 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState,useEffect, } from 'react';
 import SetPagination from '../../Common/Pagination/Pagination';
 import { Table, Row, Col, Button, Card, NavLink, Form, FormControl, Modal, Badge } from 'react-bootstrap';
 import IssueForm from '../CreateIssue/IssueForm'
 import Issuecard from '../IssueTable/Issecard'
 import './table.css';
 import { render } from '@testing-library/react';
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Switch,useLocation } from "react-router-dom";
 import './IssueBacklogBCL.scss'
 import getTickets from '../../../Services/TicketService';
 
@@ -19,7 +19,9 @@ function bagetype(priority) {
     case 'high':
       return 'warning';
     case 'medium':
-      return 'success'
+      return 'primary'
+      case 'low':
+        return 'success'
   }
 }
 
@@ -27,22 +29,29 @@ function IssueBacklogBCL() {
 
   const [isModelOpen, setisModelOpen] = useState(false);
   const [buglist, setbuglist] = useState([])
-
+  let loc=useLocation()
   function tableticket(e) {
     for (var i = 0; i < buglist.length; i++) {
       if (buglist[i].id === e) {
-        render(<Issuecard priority={buglist[i].priority} type={buglist[i].type} summary={buglist[i].issuedescription} variant={bagetype(buglist[i].priority)} />);
+        render(<Issuecard 
+          priority={buglist[i].priority} 
+          type={buglist[i].bugtype} 
+          summary={buglist[i].issuedescription} 
+          variant={bagetype(buglist[i].priority)}
+          severity={buglist[i].severity} />);
       }
     }
 
   }
   useEffect(() => {
     
-    async function fetchdata(){
+    async function fetchticket(){
       let a=await getTickets()
       setbuglist(a)
     }
-    fetchdata()
+    fetchticket()
+  
+    console.log(loc.project);
      
   },[])
 

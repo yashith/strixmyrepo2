@@ -5,8 +5,8 @@ import IssueBacklogBCL from './Components/BCL/IssueBacklog/IssueBacklogBCL' //re
 function App() {
   return (
     <div className="App">
-      {/* <Auth /> */}
-      <IssueBacklogBCL/>
+      <Auth />
+      {/* <IssueBacklogBCL/> */}
     </div>
   );
 };
