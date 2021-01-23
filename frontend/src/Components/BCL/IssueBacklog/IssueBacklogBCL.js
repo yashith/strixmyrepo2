@@ -30,7 +30,7 @@ function IssueBacklogBCL() {
 
   const [isModelOpen, setisModelOpen] = useState(false);
   const [buglist, setbuglist] = useState([])
-  const [pdetails,setpdetails]= useState([])
+  const [pdetails,setpdetails]= useState([{description:"",projectname:""}])
   let loc=useLocation().project
   
  
@@ -64,13 +64,11 @@ function IssueBacklogBCL() {
     async function fetch_project_details(){
       let b= await GetProjetDetails(localStorage.getItem("loc"))
       setpdetails(b)
-      console.log(b);
       
     }
     fetchtickets();
     fetch_project_details();  
   },[])
-
   return (
     <div className="">
 
@@ -97,11 +95,9 @@ function IssueBacklogBCL() {
             <Row className="">
               <Card>
                 <Card.Body>                
-                  <Card.Title>{}</Card.Title>
+                  <Card.Title>{pdetails[0].projectname}</Card.Title>
                   <Card.Text>
-                    Description <br></br>
-                        Project Name, ID,
-                        Customer ID
+                    {pdetails[0].description}
                      </Card.Text>
 
                 </Card.Body>
