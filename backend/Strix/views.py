@@ -15,7 +15,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.tokens import default_token_generator
 from .MailService import *
 from django.utils.http import urlsafe_base64_decode
-from .serializer import TicketSerializer
+from .serializer import TicketSerializer,ProjectSerializer
 
 
 class Login(APIView):
@@ -166,8 +166,16 @@ class ProjectList(APIView):
 
 
 #BCLbacklog
+#ticketdetails
 @api_view(['GET'])
-def getTicket(request):
-    tickets=Ticket.objects.all()
+def getTicket(request,projectid):
+    tickets=Ticket.objects.filter(project=projectid)
     serializer=TicketSerializer(tickets,many=True)
+    return Response(serializer.data)
+
+#projectdetails
+@api_view(['GET'])
+def getProjectDetails(request,projectid):
+    pdetails=Project.objects.filter(id=projectid)
+    serializer=ProjectSerializer(pdetails,many=True)
     return Response(serializer.data)

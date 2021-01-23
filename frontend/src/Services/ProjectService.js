@@ -28,6 +28,13 @@ export default function GetProjectList() {
             })
     },[])
 
-    return state
-    
+return state    
 }
+export async function GetProjetDetails(projectid){
+   
+    const response = await API.get('getpdetails/'+projectid)
+    const arrr=response.data; 
+    return(arrr)
+}
+
+

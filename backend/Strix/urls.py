@@ -15,7 +15,8 @@ urlpatterns = [
     path('projectlist/',views.ProjectList.as_view()),
     
     #testpath
-    path('getTicket/',views.getTicket,name="get_Tickets"),
+    path('getTicket/<str:projectid>',views.getTicket,name="get_Tickets"),
+    path('getpdetails/<str:projectid>',views.getProjectDetails,name="get_Project_details")
 
 ]
 

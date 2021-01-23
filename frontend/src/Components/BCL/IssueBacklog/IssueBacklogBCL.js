@@ -8,6 +8,7 @@ import { render } from '@testing-library/react';
 import { BrowserRouter as Router, Route, Link, Switch,useLocation } from "react-router-dom";
 import './IssueBacklogBCL.scss'
 import getTickets from '../../../Services/TicketService';
+import {GetProjetDetails} from '../../../Services/ProjectService';
 
 
 //my
@@ -29,7 +30,12 @@ function IssueBacklogBCL() {
 
   const [isModelOpen, setisModelOpen] = useState(false);
   const [buglist, setbuglist] = useState([])
-  let loc=useLocation()
+  const [pdetails,setpdetails]= useState([])
+  let loc=useLocation().project
+  
+ 
+  
+
   function tableticket(e) {
     for (var i = 0; i < buglist.length; i++) {
       if (buglist[i].id === e) {
@@ -45,14 +51,24 @@ function IssueBacklogBCL() {
   }
   useEffect(() => {
     
-    async function fetchticket(){
-      let a=await getTickets()
-      setbuglist(a)
+    //check project id empty or not
+    if(loc){
+      localStorage.setItem("loc",loc)
     }
-    fetchticket()
-  
-    console.log(loc.project);
-     
+    
+    async function fetchtickets(){
+      let a=await getTickets(localStorage.getItem("loc"))
+      setbuglist(a)
+       
+    }
+    async function fetch_project_details(){
+      let b= await GetProjetDetails(localStorage.getItem("loc"))
+      setpdetails(b)
+      console.log(b);
+      
+    }
+    fetchtickets();
+    fetch_project_details();  
   },[])
 
   return (
@@ -80,8 +96,8 @@ function IssueBacklogBCL() {
           <Col className="">
             <Row className="">
               <Card>
-                <Card.Body>
-                  <Card.Title>Project 1</Card.Title>
+                <Card.Body>                
+                  <Card.Title>{}</Card.Title>
                   <Card.Text>
                     Description <br></br>
                         Project Name, ID,
