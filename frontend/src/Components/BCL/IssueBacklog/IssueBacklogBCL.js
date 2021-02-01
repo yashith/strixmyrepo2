@@ -40,6 +40,7 @@ function IssueBacklogBCL() {
     for (var i = 0; i < buglist.length; i++) {
       if (buglist[i].id === e) {
         render(<Issuecard 
+          name={pdetails[0].projectname}
           priority={buglist[i].priority} 
           type={buglist[i].bugtype} 
           summary={buglist[i].issuedescription} 
@@ -53,16 +54,17 @@ function IssueBacklogBCL() {
     
     //check project id empty or not
     if(loc){
-      localStorage.setItem("loc",loc)
+      sessionStorage.setItem("loc",loc)
+      
     }
     
     async function fetchtickets(){
-      let a=await getTickets(localStorage.getItem("loc"))
+      let a=await getTickets(sessionStorage.getItem("loc"))
       setbuglist(a)
        
     }
     async function fetch_project_details(){
-      let b= await GetProjetDetails(localStorage.getItem("loc"))
+      let b= await GetProjetDetails(sessionStorage.getItem("loc"))
       setpdetails(b)
       
     }
@@ -93,24 +95,22 @@ function IssueBacklogBCL() {
         <div className="ml-2 mt-2 col-md-9">
           <Col className="">
             <Row className="">
-              <Card>
-                <Card.Body>                
-                  <Card.Title>{pdetails[0].projectname}</Card.Title>
+              <Card className="project_card">
+                <Card.Header className="pchead">
+                <Card.Title>{pdetails[0].projectname}</Card.Title>
+                </Card.Header>
+                <Card.Body>                  
                   <Card.Text>
                     {pdetails[0].description}
-                     </Card.Text>
-
+                    </Card.Text>
                 </Card.Body>
               </Card>
             </Row>
             <Row className="border border-dark mt-2 mb-2" >
               <div className="d-flex p-2 bd-highlight">
                 <Col md={4}>
-
-
                   <Button className="mr-sm-2" variant="info" data-toggle="tooltip" title="Go to issues"
-                    onClick={() => setisModelOpen(true)}
-                  >
+                    onClick={() => setisModelOpen(true)}>
                     Add Issue</Button>
                   <Modal size="lg" show={isModelOpen}>
                     <Modal.Body>
