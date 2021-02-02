@@ -2,6 +2,23 @@ from django.contrib import admin
 from django.urls import path,include
 from . import views
 
+
+
+
+getTickets= views.TicketViewSet.as_view({
+    'get': 'list',
+    
+})
+getaATicket=views.TicketViewSet.as_view({
+    'get': 'retrieve',
+})
+
+getProject=views.ProjectViewSet.as_view({
+    'get': 'list',
+})
+
+
+
 urlpatterns = [
 
     # Login and Forgot password
@@ -15,9 +32,11 @@ urlpatterns = [
     path('projectlist/',views.ProjectList.as_view()),
     
     #testpath
-    path('getTicket/<str:projectid>',views.getTicket,name="get_Tickets"),
-    path('getpdetails/<str:projectid>',views.getProjectDetails,name="get_Project_details")
-
+    # path('getTicket/<str:projectid>',views.getTicket,name="get_Tickets"),
+    # path('getpdetails/<str:projectid>',views.getProjectDetails,name="get_Project_details")
+    path('getTicket/',getTickets,name="get_Tickets"),
+    path('getTicket/<str:pk>',getaATicket,name="get_Ticket"),
+    path('getProject/',getProject,name="get_project_Details"),
 ]
 
 

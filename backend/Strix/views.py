@@ -9,6 +9,7 @@ from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate
 from rest_framework.decorators import api_view
 from .models import * 
+from rest_framework import viewsets
 
 
 from django.core.exceptions import ValidationError
@@ -167,15 +168,41 @@ class ProjectList(APIView):
 
 #BCLbacklog
 #ticketdetails
-@api_view(['GET'])
-def getTicket(request,projectid):
-    tickets=Ticket.objects.filter(project=projectid)
-    serializer=TicketSerializer(tickets,many=True)
-    return Response(serializer.data)
+# @api_view(['GET'])
+# def projectTicket(request,projectid):
+#     tickets=Ticket.objects.filter(project=projectid)
+#     serializer=TicketSerializer(tickets,many=True)
+#     return Response(serializer.data)
 
-#projectdetails
-@api_view(['GET'])
-def getProjectDetails(request,projectid):
-    pdetails=Project.objects.filter(id=projectid)
-    serializer=ProjectSerializer(pdetails,many=True)
-    return Response(serializer.data)
+# #projectdetails
+# @api_view(['GET'])
+# def getProjectDetails(request,projectid):
+#     pdetails=Project.objects.filter(id=projectid)
+#     serializer=ProjectSerializer(pdetails,many=True)
+#     return Response(serializer.data)
+
+
+
+class TicketViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Ticket.objects.all()
+    serializer_class= TicketSerializer
+
+    def get_queryset(self):
+        queryset = self.queryset
+        filter_value = self.request.query_params.get('project', None)
+        if filter_value is not None:
+            queryset = queryset.filter(project=filter_value)
+        return queryset
+
+
+
+class ProjectViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Project.objects.all()
+    serializer_class=ProjectSerializer
+
+    def get_queryset(self):
+        queryset = self.queryset
+        filter_value = self.request.query_params.get('id', None)
+        if filter_value is not None:
+            queryset = queryset.filter(id=filter_value)
+        return queryset

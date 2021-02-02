@@ -32,7 +32,7 @@ return state
 }
 export async function GetProjetDetails(projectid){
    
-    const response = await API.get('getpdetails/'+projectid)
+    const response = await API.get('getProject/?id='+projectid)
     const arrr=response.data; 
     return(arrr)
 }

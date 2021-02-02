@@ -62,7 +62,7 @@ export default async function getTickets(pid) {
     //     .then(response => { arr.push(response.data) })
     //     .catch(err=>{console.log(err)})
     // return arr
-    const response = await API.get('getTicket/'+pid);
+    const response = await API.get('getTicket/?project='+pid);
     const arrr=response.data; 
     return(arrr);
 }
