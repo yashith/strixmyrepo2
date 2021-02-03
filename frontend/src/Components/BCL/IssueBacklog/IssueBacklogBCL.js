@@ -114,8 +114,7 @@ function IssueBacklogBCL() {
                     Add Issue</Button>
                   <Modal size="lg" show={isModelOpen}>
                     <Modal.Body>
-                      <IssueForm cl={() => setisModelOpen(false)} buglist={buglist} setbuglist={setbuglist} />
-
+                      <IssueForm cl={() => setisModelOpen(false)} project={sessionStorage.getItem("loc")}/>
                     </Modal.Body>
 
                   </Modal>
