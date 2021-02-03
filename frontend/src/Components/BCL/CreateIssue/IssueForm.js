@@ -1,6 +1,7 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import { Container, Row, Form, Button, Col } from 'react-bootstrap';
+import getTickets,{createTicket} from '../../../Services/TicketService';
 
 function IsseForm(props,) {
 
@@ -41,18 +42,23 @@ function IsseForm(props,) {
 
             // props.setbuglist([...props.buglist, { priority: values.priority, bugtype: values.bugtype, summary: values.summary, title: values.title, id: Math.floor(Math.random() * 1000) }]);
 
-            let response=({ priority: values.priority,
+            let response=({
                 issuename: values.title,
                 priority: values.priority,
                 bugtype: values.bugtype,
                 severity: values.severity, 
                 issuedescription: values.summary,
                 project:props.project,
+                workstate:2,//Change
+                externaluser:15,//Change
                 totaleffort:0,
 
                 })
 
-            console.log(JSON.stringify(response));
+            
+            createTicket(response);
+            props.reload();    
+            
             props.cl();
         },
 
@@ -60,7 +66,7 @@ function IsseForm(props,) {
 
     });
     const prioritylist = ['low', 'medium', 'high', 'urgent'];
-    const typelist = ['Functional', 'Performance Support', 'Usability', 'Compatibility', 'Security'];
+    const typelist = ['Functional', 'Performance','Usability', 'Compatibility', 'Security'];
     const severitylist = ['critical', 'high', 'medium', 'low']
 
     return (
@@ -86,8 +92,8 @@ function IsseForm(props,) {
                 <Form.Group >
                     <Form.Label>BugType</Form.Label>
                     <Form.Control as="select" name="bugtype" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.severity}>{/*set error handler*/}
-                        {severitylist.map((severity) => <option value={severity} label={severity} key={severity} />)}
-
+                        {typelist.map((bugtype) => <option value={bugtype} label={bugtype} key={bugtype}/>)}
+                        
                     </Form.Control>
                     {formik.errors.bugtype && formik.touched.bugtype ? <Form.Text style={warningstyle}>{formik.errors.bugtype}</Form.Text> : null}
                 </Form.Group>
@@ -95,7 +101,8 @@ function IsseForm(props,) {
                 <Form.Group >
                     <Form.Label>Severity</Form.Label>
                     <Form.Control as="select" name="severity" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.bugtype}>{/*set error handler*/}
-                        {typelist.map((bugtype) => <option value={bugtype} label={bugtype} key={bugtype}/>)}
+                    {severitylist.map((severity) => <option value={severity} label={severity} key={severity} />)}
+
 
                     </Form.Control>
                     {formik.errors.severity && formik.touched.severity ? <Form.Text style={warningstyle}>{formik.errors.severity}</Form.Text> : null}

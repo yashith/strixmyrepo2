@@ -50,26 +50,28 @@ function IssueBacklogBCL() {
     }
 
   }
+  //check project id empty or not
+  if(loc){
+    sessionStorage.setItem("loc",loc)
+    
+  }
+  async function fetchtickets(){
+    let a=await getTickets(sessionStorage.getItem("loc"))
+    setbuglist(a)
+     
+  }
+  async function fetch_project_details(){
+    let b= await GetProjetDetails(sessionStorage.getItem("loc"))
+    setpdetails(b)
+    
+  }
+
   useEffect(() => {
     
-    //check project id empty or not
-    if(loc){
-      sessionStorage.setItem("loc",loc)
-      
-    }
-    
-    async function fetchtickets(){
-      let a=await getTickets(sessionStorage.getItem("loc"))
-      setbuglist(a)
-       
-    }
-    async function fetch_project_details(){
-      let b= await GetProjetDetails(sessionStorage.getItem("loc"))
-      setpdetails(b)
-      
-    }
+    let isMounted = true; // cleanup mounting warning
     fetchtickets();
-    fetch_project_details();  
+    fetch_project_details();
+    return()=>{isMounted = false}
   },[])
   return (
     <div className="">

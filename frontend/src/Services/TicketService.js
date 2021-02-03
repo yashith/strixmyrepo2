@@ -66,3 +66,7 @@ export default async function getTickets(pid) {
     const arrr=response.data; 
     return(arrr);
 }
+
+export async function createTicket(data){
+    await API.post('getTicket/',data);
+}
