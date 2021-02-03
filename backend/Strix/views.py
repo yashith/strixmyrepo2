@@ -183,7 +183,7 @@ class ProjectList(APIView):
 
 
 
-class TicketViewSet(viewsets.ReadOnlyModelViewSet):
+class TicketViewSet(viewsets.ModelViewSet):
     queryset = Ticket.objects.all()
     serializer_class= TicketSerializer
 
@@ -196,7 +196,7 @@ class TicketViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 
-class ProjectViewSet(viewsets.ReadOnlyModelViewSet):
+class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     serializer_class=ProjectSerializer
 

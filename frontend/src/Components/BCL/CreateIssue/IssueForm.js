@@ -42,12 +42,14 @@ function IsseForm(props,) {
             // props.setbuglist([...props.buglist, { priority: values.priority, bugtype: values.bugtype, summary: values.summary, title: values.title, id: Math.floor(Math.random() * 1000) }]);
 
             let response=({ priority: values.priority,
-                title: values.title,
+                issuename: values.title,
                 priority: values.priority,
                 bugtype: values.bugtype,
                 severity: values.severity, 
-                summary: values.summary,
+                issuedescription: values.summary,
                 project:props.project,
+                totaleffort:0,
+
                 })
 
             console.log(JSON.stringify(response));

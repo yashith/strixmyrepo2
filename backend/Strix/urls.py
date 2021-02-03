@@ -7,6 +7,7 @@ from . import views
 
 getTickets= views.TicketViewSet.as_view({
     'get': 'list',
+    'post':'create',
     
 })
 getaATicket=views.TicketViewSet.as_view({
