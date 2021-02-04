@@ -9,6 +9,7 @@ import { BrowserRouter as Router, Route, Link, Switch,useLocation,useParams } fr
 import './IssueBacklogBCL.scss'
 import getTickets from '../../../Services/TicketService';
 import {GetProjetDetails} from '../../../Services/ProjectService';
+import IssueTable from '../IssueTable/IssueTable'
 
 
 //my
@@ -32,6 +33,23 @@ function IssueBacklogBCL() {
   const [buglist, setbuglist] = useState([])
   const [pdetails,setpdetails]= useState([{description:"",projectname:""}])
   let loc=useLocation().project
+  const columns = React.useMemo(
+    () => [
+    {
+        Header: 'ID',
+        accessor: 'id'
+    },
+    {
+        Header: 'Title',
+        accessor: 'issuename'
+    },
+    {
+        Header: 'Prority',
+        accessor: 'priority'
+    }
+    ],
+    []
+)
 
   
  
@@ -78,23 +96,6 @@ function IssueBacklogBCL() {
     <div className="">
 
       <Row >
-        {/* <div className="col-md-2 bg-dark">
-          <Col className=" text-white  ">
-
-            <Row> <NavLink className="d-inline p-2 bg-dark text-white" to="/Projectlist"> LOGO</NavLink>
-            </Row>
-            <Row> <NavLink className="d-inline p-2 bg-dark text-white" to="/Projectlist">  Summary</NavLink>
-            </Row>
-            <Row> <NavLink className="d-inline p-2 bg-dark text-white" to="/Projectlist"> Dashboard</NavLink>
-            </Row>
-            <Row> <NavLink className="d-inline p-2 bg-dark text-white" to="/Projectlist"> Reports </NavLink>
-            </Row>
-
-
-
-          </Col>
-
-        </div> */}
         <div className="ml-2 mt-2 col-md-9">
           <Col className="">
             <Row className="">
@@ -143,7 +144,7 @@ function IssueBacklogBCL() {
 
                       </Row> */}
             <Row>
-              <Table>
+              {/* <Table>
                 <thead>
                   <tr>
                     <th>
@@ -169,7 +170,8 @@ function IssueBacklogBCL() {
                   }
 
                 </tbody>
-              </Table>
+              </Table> */}
+              <IssueTable columns={columns} data={buglist} />
             </Row>
 
 
