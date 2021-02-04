@@ -5,7 +5,7 @@ import IssueForm from '../CreateIssue/IssueForm'
 import Issuecard from '../IssueTable/Issecard'
 import './table.css';
 import { render } from '@testing-library/react';
-import { BrowserRouter as Router, Route, Link, Switch,useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Switch,useLocation,useParams } from "react-router-dom";
 import './IssueBacklogBCL.scss'
 import getTickets from '../../../Services/TicketService';
 import {GetProjetDetails} from '../../../Services/ProjectService';
@@ -32,6 +32,7 @@ function IssueBacklogBCL() {
   const [buglist, setbuglist] = useState([])
   const [pdetails,setpdetails]= useState([{description:"",projectname:""}])
   let loc=useLocation().project
+
   
  
   
@@ -116,7 +117,7 @@ function IssueBacklogBCL() {
                     Add Issue</Button>
                   <Modal size="lg" show={isModelOpen}>
                     <Modal.Body>
-                      <IssueForm cl={() => setisModelOpen(false)} project={sessionStorage.getItem("loc")}/>
+                      <IssueForm cl={() => setisModelOpen(false)} project={sessionStorage.getItem("loc")} reload={()=>fetchtickets()}/>
                     </Modal.Body>
 
                   </Modal>

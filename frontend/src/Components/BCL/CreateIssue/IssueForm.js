@@ -5,6 +5,13 @@ import getTickets,{createTicket} from '../../../Services/TicketService';
 
 function IsseForm(props,) {
 
+
+
+    async function create_Ticket(response){
+        await createTicket(response);
+        await props.reload();
+    }
+
     const warningstyle = { color: 'red' };
     const validate = values => {
 
@@ -51,14 +58,12 @@ function IsseForm(props,) {
                 project:props.project,
                 workstate:2,//Change
                 externaluser:15,//Change
-                totaleffort:0,
+                totaleffort:0,//Change
 
                 })
 
-            
-            createTicket(response);
-            props.reload();    
-            
+            create_Ticket(response);
+
             props.cl();
         },
 

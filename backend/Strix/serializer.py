@@ -9,5 +9,6 @@ class TicketSerializer(serializers.ModelSerializer):
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model=Project
-        fields=('description','projectname')
+        fields=('__all__')
+        # description','projectname
         
