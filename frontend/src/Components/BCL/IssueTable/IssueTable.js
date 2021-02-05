@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTable, usePagination } from 'react-table'
-import { Container, Row, Col, Table, Card } from 'react-bootstrap'
+import { Container, Row, Col, Table, Card,Button } from 'react-bootstrap'
 
 
 
@@ -36,33 +36,39 @@ function IssueTable({ columns, data }, props) {
   // Render the UI for your table
   return (
     <>
-            
-      <Card style={{width:"100%"}}>
+
+      <Card style={{ width: "100%" }}>
         <Card.Body>
-          <div className="pagination">
-            <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-              {'<<'}
-            </button>{' '}
-            <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-              {'<'}
-            </button>{' '}
-            <button onClick={() => nextPage()} disabled={!canNextPage}>
-              {'>'}
-            </button>{' '}
-            <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-              {'>>'}
-            </button>{' '}
-            <span>
+          <Container>
+            <Row>
+              <Col>
+                <Button size="sm" variant="dark" onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+                  {'<<'}
+                </Button>{' '}
+                <Button size="sm" variant="dark" onClick={() => previousPage()} disabled={!canPreviousPage}>
+                  {'PREV'}
+                </Button>{' '}
+                <Button size="sm" variant="dark" onClick={() => nextPage()} disabled={!canNextPage}>
+                  {'NEXT'}
+                </Button>{' '}
+                <Button size="sm" variant="dark" onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+                  {'>>'}
+                </Button>{' '}
+              </Col>
+              <Col>
+              <span>
               Page{' '}
               <strong>
                 {pageIndex + 1} of {pageOptions.length}
               </strong>{' '}
             </span>
+            </Col>
+            <Col>
             <span>
               Go to page:{' '}
               <input
                 type="number"
-                defaultValue={pageIndex+1}
+                defaultValue={pageIndex + 1}
                 max={pageCount}
                 min="1"
                 onChange={e => {
@@ -72,6 +78,13 @@ function IssueTable({ columns, data }, props) {
                 style={{ width: '100px' }}
               />
             </span>{' '}
+            </Col>
+            </Row>
+          </Container>
+          <div className="pagination">
+
+
+            
           </div>
         </Card.Body>
       </Card>
