@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTable, usePagination } from 'react-table'
-import { Container, Row, Col, Table, Card,Button } from 'react-bootstrap'
+import { Container, Row, Col, Table, Card, Button, Popover, OverlayTrigger } from 'react-bootstrap'
 
 
 
@@ -33,11 +33,30 @@ function IssueTable({ columns, data }, props) {
     usePagination
   )
 
+  const popover = (
+    <Popover id="popover-basic">
+      <Popover.Title as="h3">Go to page</Popover.Title>
+      <Popover.Content>
+        <input
+          type="number"
+          defaultValue={pageIndex + 1}
+          max={pageCount}
+          min="1"
+          onChange={e => {
+            const page = e.target.value ? Number(e.target.value) - 1 : 0
+            gotoPage(page)
+          }}
+          style={{ width: '100px' }}
+        />
+      </Popover.Content>
+    </Popover>
+  );
+
   // Render the UI for your table
   return (
     <>
 
-      <Card style={{ width: "100%" }}>
+      <Card  style={{ width: "100%" }}>
         <Card.Body>
           <Container>
             <Row>
@@ -56,36 +75,20 @@ function IssueTable({ columns, data }, props) {
                 </Button>{' '}
               </Col>
               <Col>
-              <span>
-              Page{' '}
-              <strong>
-                {pageIndex + 1} of {pageOptions.length}
-              </strong>{' '}
-            </span>
-            </Col>
-            <Col>
-            <span>
-              Go to page:{' '}
-              <input
-                type="number"
-                defaultValue={pageIndex + 1}
-                max={pageCount}
-                min="1"
-                onChange={e => {
-                  const page = e.target.value ? Number(e.target.value) - 1 : 0
-                  gotoPage(page)
-                }}
-                style={{ width: '100px' }}
-              />
-            </span>{' '}
-            </Col>
+                <OverlayTrigger trigger="click" placement="bottom" overlay={popover}>
+                  <Button size="sm" variant="secondary">
+                    Page{' '}
+                    <strong>
+                      {pageIndex + 1} of {pageOptions.length}
+                    </strong>{' '}
+                  </Button>
+                </OverlayTrigger>
+
+              </Col>
+              <Col>
+              </Col>
             </Row>
           </Container>
-          <div className="pagination">
-
-
-            
-          </div>
         </Card.Body>
       </Card>
 
