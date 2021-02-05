@@ -45,13 +45,16 @@ function IssueBacklogBCL() {
     },
     {
         Header: 'Prority',
-        accessor: 'priority'
+        accessor: 'priority',
+        Cell:({ value }) => (<Badge variant={bagetype(value)}>{value}</Badge>)
+      
+        
     }
     ],
     []
 )
 
-  
+ //<Badge variant={bagetype(bug.priority)}>{bug.priority}</Badge> 
  
   
 

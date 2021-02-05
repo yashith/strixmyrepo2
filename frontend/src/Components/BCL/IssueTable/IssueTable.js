@@ -45,17 +45,4 @@ function IssueTable({ columns, data },props) {
   )
 }
 
-// function App() {
- 
-//   )
-
-//   const data = React.useMemo(() => makeData(20), [])
-
-//   return (
-//     <Styles>
-//       <Table columns={columns} data={data} />
-//     </Styles>
-//   )
-// }
-
 export default IssueTable
