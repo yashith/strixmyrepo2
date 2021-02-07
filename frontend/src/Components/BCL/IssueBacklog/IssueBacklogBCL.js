@@ -10,6 +10,8 @@ import './IssueBacklogBCL.scss'
 import getTickets from '../../../Services/TicketService';
 import { GetProjetDetails } from '../../../Services/ProjectService';
 import IssueTable from '../IssueTable/IssueTable'
+import MaterialTable from 'material-table'
+
 
 
 //my
@@ -83,7 +85,7 @@ function IssueBacklogBCL() {
   //       break;
   //   }
   // }
-  function assignsort(list){
+  function assignsort(list) {
     for (let i = 0; i < list.length; i++) {
       switch (list[i].priority) {
         case "urgent":
@@ -125,7 +127,7 @@ function IssueBacklogBCL() {
     let a = await getTickets(sessionStorage.getItem("loc"))
     assignsort(a)
     setbuglist(a)
-    
+
   }
   async function fetch_project_details() {
     let b = await GetProjetDetails(sessionStorage.getItem("loc"))
@@ -140,15 +142,18 @@ function IssueBacklogBCL() {
     fetch_project_details();
 
     //assgin values according to priority
-    
-    
+
+
     //
 
     return () => { isMounted = false }
   }, [])
   return (
-    <div className="">
-
+    <div>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      />
       <Row >
         <div className="ml-2 mt-2 col-md-9">
           <Col className="">
@@ -225,12 +230,28 @@ function IssueBacklogBCL() {
 
                 </tbody>
               </Table> */}
-              <IssueTable columns={columns} data={buglist} />
+              {/* <IssueTable columns={columns} data={buglist} /> */}
+              <div style={{ minWidth: '100%' }}>
+                <MaterialTable
+                  columns={[
+                    { title: 'Id', field: 'id' },
+                    { title: 'Title', field: 'issuename' },
+                    { title: "Date", field: "date",},
+                    { title: 'Priority', field: 'priority', render: rowData => <Badge variant={bagetype(rowData.priority)}>{rowData.priority}</Badge> ,customSort: (a, b) => a.priorityid - b.priorityid},
+
+                  ]}
+                  data={buglist}
+                  title="Issues"
+                  onRowClick={(event,rowData)=>{tableticket(rowData.id)}}
+                />
+
+              </div>
+
+
             </Row>
           </Col>
         </div>
       </Row>
-      <Button onClick={()=>{console.log(buglist[0])}}>Show buglist</Button>
     </div>
   )
 
