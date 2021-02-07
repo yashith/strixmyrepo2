@@ -1,14 +1,14 @@
-import React, { useState,useEffect, } from 'react';
+import React, { useState, useEffect, } from 'react';
 import SetPagination from '../../Common/Pagination/Pagination';
 import { Table, Row, Col, Button, Card, NavLink, Form, FormControl, Modal, Badge } from 'react-bootstrap';
 import IssueForm from '../CreateIssue/IssueForm'
 import Issuecard from '../IssueTable/Issecard'
 import './table.css';
 import { render } from '@testing-library/react';
-import { BrowserRouter as Router, Route, Link, Switch,useLocation,useParams } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Switch, useLocation, useParams } from "react-router-dom";
 import './IssueBacklogBCL.scss'
 import getTickets from '../../../Services/TicketService';
-import {GetProjetDetails} from '../../../Services/ProjectService';
+import { GetProjetDetails } from '../../../Services/ProjectService';
 import IssueTable from '../IssueTable/IssueTable'
 
 
@@ -22,8 +22,8 @@ function bagetype(priority) {
       return 'warning';
     case 'medium':
       return 'primary'
-      case 'low':
-        return 'success'
+    case 'low':
+      return 'success'
   }
 }
 
@@ -31,44 +31,43 @@ function IssueBacklogBCL() {
 
   const [isModelOpen, setisModelOpen] = useState(false);
   const [buglist, setbuglist] = useState([])
-  const [pdetails,setpdetails]= useState([{description:"",projectname:""}])
-  let loc=useLocation().project
+  const [pdetails, setpdetails] = useState([{ description: "", projectname: "" }])
+  let loc = useLocation().project
 
   const columns = React.useMemo(
     () => [
-    {
+      {
         Header: 'ID',
         accessor: 'id',
-        Cell:({ value }) =>(<span>{value}</span>) ,
-    },
-    {
+        Cell: ({ value }) => (<span>{value}</span>),
+      },
+      {
         Header: 'Title',
         accessor: 'issuename'
-    },
-    {
+      },
+      {
         Header: 'Prority',
         accessor: 'priority',
-        Cell:({ value }) => (<Badge variant={bagetype(value)}>{value}</Badge>),
-        
-      
-        
-    }
+        Cell: ({ value }) => (<Badge variant={bagetype(value)}>{value}</Badge>),
+
+
+
+      }
     ],
     []
-)
+  )
 
- //<Badge variant={bagetype(bug.priority)}>{bug.priority}</Badge> 
- 
-  
+
+
   //details of a ticket
   function tableticket(e) {
     for (var i = 0; i < buglist.length; i++) {
       if (buglist[i].id === e) {
-        render(<Issuecard 
+        render(<Issuecard
           name={pdetails[0].projectname}
-          priority={buglist[i].priority} 
-          type={buglist[i].bugtype} 
-          summary={buglist[i].issuedescription} 
+          priority={buglist[i].priority}
+          type={buglist[i].bugtype}
+          summary={buglist[i].issuedescription}
           variant={bagetype(buglist[i].priority)}
           severity={buglist[i].severity} />);
       }
@@ -76,40 +75,77 @@ function IssueBacklogBCL() {
 
   }
 
-//test sorting
-function sorting(type){
-  switch(type){
-    case "priority":
-      
-      break;
-  }
-}
+  //test sorting
+  // function sorting(type) {
+  //   switch (type) {
+  //     case "priority":
 
+  //       break;
+  //   }
+  // }
+  function assignsort(list){
+    for (let i = 0; i < list.length; i++) {
+      switch (list[i].priority) {
+        case "urgent":
+          list[i].priorityid = 1;
+          break;
+        case "high":
+          list[i].priorityid = 2;
+          break;
+        case "medium":
+          list[i].priorityid = 3;
+          break;
+        case "low":
+          list[i].priorityid = 4;
+          break;
+      }
+      switch (list[i].severity) {
+        case "critical":
+          list[i].severityid = 1;
+          break;
+        case "high":
+          list[i].severityid = 2;
+          break;
+        case "medium":
+          list[i].severityid = 3;
+          break;
+        case "low":
+          list[i].severityid = 4;
+          break;
+      }
+    }
+  }
+  //*********************************
   //check project id empty or not
-  if(loc){
-    sessionStorage.setItem("loc",loc)
-    
+  if (loc) {
+    sessionStorage.setItem("loc", loc)
+
   }
-  async function fetchtickets(){
-    let a=await getTickets(sessionStorage.getItem("loc"))
+  async function fetchtickets() {
+    let a = await getTickets(sessionStorage.getItem("loc"))
+    assignsort(a)
     setbuglist(a)
-     
-  }
-  async function fetch_project_details(){
-    let b= await GetProjetDetails(sessionStorage.getItem("loc"))
-    setpdetails(b)
     
+  }
+  async function fetch_project_details() {
+    let b = await GetProjetDetails(sessionStorage.getItem("loc"))
+    setpdetails(b)
+
   }
 
   useEffect(() => {
-    
+
     let isMounted = true; // cleanup mounting warning
     fetchtickets();
     fetch_project_details();
 
+    //assgin values according to priority
+    
+    
+    //
 
-    return()=>{isMounted = false}
-  },[])
+    return () => { isMounted = false }
+  }, [])
   return (
     <div className="">
 
@@ -119,12 +155,12 @@ function sorting(type){
             <Row className="">
               <Card className="project_card">
                 <Card.Header className="pchead">
-                <Card.Title>{pdetails[0].projectname}</Card.Title>
+                  <Card.Title>{pdetails[0].projectname}</Card.Title>
                 </Card.Header>
-                <Card.Body>                  
+                <Card.Body>
                   <Card.Text>
                     {pdetails[0].description}
-                    </Card.Text>
+                  </Card.Text>
                 </Card.Body>
               </Card>
             </Row>
@@ -136,7 +172,7 @@ function sorting(type){
                     Add Issue</Button>
                   <Modal size="lg" show={isModelOpen}>
                     <Modal.Body>
-                      <IssueForm cl={() => setisModelOpen(false)} project={sessionStorage.getItem("loc")} reload={()=>fetchtickets()}/>
+                      <IssueForm cl={() => setisModelOpen(false)} project={sessionStorage.getItem("loc")} reload={() => fetchtickets()} />
                     </Modal.Body>
 
                   </Modal>
@@ -191,29 +227,10 @@ function sorting(type){
               </Table> */}
               <IssueTable columns={columns} data={buglist} />
             </Row>
-
-
-
-            <Row >
-
-              <div>
-                <Card className=" mu-2">
-                  <Card.Body>
-
-                    {/* <SetPagination
-                      IssuePerPage={IssuePerPage}
-                      totalIssues={bugs.length}
-                      paginate={paginate}
-                    /> */}
-
-                  </Card.Body>
-                </Card>
-              </div>
-            </Row>
           </Col>
         </div>
       </Row>
-
+      <Button onClick={()=>{console.log(buglist[0])}}>Show buglist</Button>
     </div>
   )
 
