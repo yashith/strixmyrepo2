@@ -11,10 +11,7 @@ function IssueTable({ columns, data }, props) {
     getTableBodyProps,
     headerGroups,
     prepareRow,
-    page, // Instead of using 'rows', we'll use page,
-    // which has only the rows for the active page
-
-    // The rest of these things are super handy, too ;)
+    page, 
     canPreviousPage,
     canNextPage,
     pageOptions,
@@ -106,7 +103,7 @@ function IssueTable({ columns, data }, props) {
           {page.map((row, i) => {
             prepareRow(row)
             return (
-              <tr {...row.getRowProps()}>
+              <tr {...row.getRowProps()}onClick={()=>console.log()}>
                 {row.cells.map(cell => {
                   return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                 })}
@@ -115,7 +112,6 @@ function IssueTable({ columns, data }, props) {
           })}
         </tbody>
       </Table>
-      {/* ******************** */}
     </>
 
 

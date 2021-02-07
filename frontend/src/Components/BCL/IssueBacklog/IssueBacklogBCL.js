@@ -33,11 +33,13 @@ function IssueBacklogBCL() {
   const [buglist, setbuglist] = useState([])
   const [pdetails,setpdetails]= useState([{description:"",projectname:""}])
   let loc=useLocation().project
+
   const columns = React.useMemo(
     () => [
     {
         Header: 'ID',
-        accessor: 'id'
+        accessor: 'id',
+        Cell:({ value }) =>(<span>{value}</span>) ,
     },
     {
         Header: 'Title',
@@ -46,7 +48,8 @@ function IssueBacklogBCL() {
     {
         Header: 'Prority',
         accessor: 'priority',
-        Cell:({ value }) => (<Badge variant={bagetype(value)}>{value}</Badge>)
+        Cell:({ value }) => (<Badge variant={bagetype(value)}>{value}</Badge>),
+        
       
         
     }
@@ -57,7 +60,7 @@ function IssueBacklogBCL() {
  //<Badge variant={bagetype(bug.priority)}>{bug.priority}</Badge> 
  
   
-
+  //details of a ticket
   function tableticket(e) {
     for (var i = 0; i < buglist.length; i++) {
       if (buglist[i].id === e) {
@@ -72,6 +75,16 @@ function IssueBacklogBCL() {
     }
 
   }
+
+//test sorting
+function sorting(type){
+  switch(type){
+    case "priority":
+      
+      break;
+  }
+}
+
   //check project id empty or not
   if(loc){
     sessionStorage.setItem("loc",loc)
@@ -93,6 +106,8 @@ function IssueBacklogBCL() {
     let isMounted = true; // cleanup mounting warning
     fetchtickets();
     fetch_project_details();
+
+
     return()=>{isMounted = false}
   },[])
   return (
