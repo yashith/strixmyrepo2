@@ -11,6 +11,9 @@ import getTickets from '../../../Services/TicketService';
 import { GetProjetDetails } from '../../../Services/ProjectService';
 import IssueTable from '../IssueTable/IssueTable'
 import MaterialTable from 'material-table'
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import Tooltip from '@material-ui/core/Tooltip';
 
 
 
@@ -26,6 +29,19 @@ function bagetype(priority) {
       return 'primary'
     case 'low':
       return 'success'
+  }
+}
+function severitytype(severity) {
+
+  switch (severity) {
+    case 'critical':
+      return (<Tooltip title="critical"><ArrowUpwardIcon style={{ color: "#dc3545" }}/></Tooltip>);
+    case 'high':
+      return (<Tooltip title="high"><ArrowUpwardIcon style={{ color: "#ffc107" }}/></Tooltip>);
+    case 'medium':
+      return (<Tooltip title="medium"><ArrowDownwardIcon style={{ color: "#007bff" }}/></Tooltip>);
+    case 'low':
+      return (<Tooltip title="low"><ArrowDownwardIcon style={{ color: "#28a745" }}/></Tooltip>);
   }
 }
 
@@ -141,11 +157,6 @@ function IssueBacklogBCL() {
     fetchtickets();
     fetch_project_details();
 
-    //assgin values according to priority
-
-
-    //
-
     return () => { isMounted = false }
   }, [])
   return (
@@ -238,7 +249,8 @@ function IssueBacklogBCL() {
                     { title: 'Title', field: 'issuename' },
                     { title: "Date", field: "date",},
                     { title: 'Priority', field: 'priority', render: rowData => <Badge variant={bagetype(rowData.priority)}>{rowData.priority}</Badge> ,customSort: (a, b) => a.priorityid - b.priorityid},
-
+                    { title: 'Severity', field: 'severity',render: rowData => severitytype(rowData.severity) ,customSort: (a, b) => a.severityid - b.severityid}
+                    
                   ]}
                   data={buglist}
                   title="Issues"
