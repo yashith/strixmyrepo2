@@ -2,6 +2,7 @@ import React from 'react';
 import { useFormik } from 'formik';
 import { Container, Row, Form, Button, Col } from 'react-bootstrap';
 import getTickets,{createTicket} from '../../../Services/TicketService';
+import { light } from '@material-ui/core/styles/createPalette';
 
 function IsseForm(props,) {
 
@@ -88,7 +89,8 @@ function IsseForm(props,) {
 
                 <Form.Group >
                     <Form.Label>Priority</Form.Label>
-                    <Form.Control as="select" name="priority" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.priority}>{/*set error handler*/}
+                    <Form.Control as="select" name="priority" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.priority} >{/*set error handler*/}
+                        <option value="">Select priority</option>
                         {prioritylist.map((priority) => <option value={priority} label={priority} key={priority}/>)}
                     </Form.Control>
                     {formik.errors.priority && formik.touched.priority ? <Form.Text style={warningstyle}>{formik.errors.priority}</Form.Text> : null}
@@ -97,6 +99,7 @@ function IsseForm(props,) {
                 <Form.Group >
                     <Form.Label>BugType</Form.Label>
                     <Form.Control as="select" name="bugtype" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.severity}>{/*set error handler*/}
+                        <option value="">Select Type</option>
                         {typelist.map((bugtype) => <option value={bugtype} label={bugtype} key={bugtype}/>)}
                         
                     </Form.Control>
@@ -106,6 +109,7 @@ function IsseForm(props,) {
                 <Form.Group >
                     <Form.Label>Severity</Form.Label>
                     <Form.Control as="select" name="severity" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.bugtype}>{/*set error handler*/}
+                    <option value="">Select severity</option>
                     {severitylist.map((severity) => <option value={severity} label={severity} key={severity} />)}
 
 
