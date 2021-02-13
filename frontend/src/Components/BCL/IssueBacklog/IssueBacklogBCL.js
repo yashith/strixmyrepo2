@@ -9,7 +9,6 @@ import { BrowserRouter as Router, Route, Link, Switch, useLocation, useParams } 
 import './IssueBacklogBCL.scss'
 import getTickets from '../../../Services/TicketService';
 import { GetProjetDetails } from '../../../Services/ProjectService';
-import IssueTable from '../IssueTable/IssueTable'
 import MaterialTable from 'material-table'
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
@@ -180,9 +179,9 @@ function IssueBacklogBCL() {
                 </Card.Body>
               </Card>
             </Row>
-            <Row className="border border-dark mt-2 mb-2" >
+            <Row className="mt-2 mb-2" >
               <div className="d-flex p-2 bd-highlight">
-                <Col md={4}>
+                <Col md={12}>
                   <Button className="mr-sm-2" variant="info" data-toggle="tooltip" title="Go to issues"
                     onClick={() => setisModelOpen(true)}>
                     Add Issue</Button>
@@ -194,54 +193,10 @@ function IssueBacklogBCL() {
                   </Modal>
 
                 </Col>
-                <Col md={3}>
-                  {/* sort here */}
-
-                </Col>
-                <Col md={5}>
-                  <Form inline>
-                    <FormControl type="text" placeholder="Search" className="mr-sm-2" /> {/* Margin right(Padding , Small and up by 2) */}
-                  </Form>
-                </Col>
               </div>
             </Row>
-            {/* <Row>
-
-                          {
-                              bug.map((bug) => <Issuecard id={'#' + bug.id} summ={bug.Summary} priority={bug.priority} badgetype={bagetype(bug.priority)} />)
-                          }
-
-
-                      </Row> */}
             <Row>
-              {/* <Table>
-                <thead>
-                  <tr>
-                    <th>
-                      #id
-                    </th>
-                    <th>
-                      Title
-                    </th>
-                    <th>
-                      Priority
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {
-                    buglist.map((bug) =>
-                      <tr className="highligh" id={bug.id} onClick={() => { tableticket(bug.id) }} key={bug.id}>
-                        <td>{'#' + bug.id}</td>
-                        <td className="noover"><div>{bug.issuename}</div></td>
-                        <td><Badge variant={bagetype(bug.priority)}>{bug.priority}</Badge></td>
-                      </tr>
-                    )
-                  }
-
-                </tbody>
-              </Table> */}
-              {/* <IssueTable columns={columns} data={buglist} /> */}
+              <Card style={{minWidth:'100%'}}>
               <div style={{ minWidth: '100%' }}>
                 <MaterialTable
                   columns={[
@@ -258,6 +213,8 @@ function IssueBacklogBCL() {
                 />
 
               </div>
+              </Card>
+
 
 
             </Row>
