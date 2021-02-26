@@ -187,7 +187,7 @@ class TicketViewSet(viewsets.ModelViewSet):
     queryset = Ticket.objects.all()
     serializer_class= TicketSerializer
 
-    def get_queryset(self):
+    def get_queryset(self):#filter by id query
         queryset = self.queryset
         filter_value = self.request.query_params.get('project', None)
         if filter_value is not None:

@@ -13,6 +13,7 @@ class TicketSerializer(serializers.ModelSerializer):
         model=Ticket
         fields=('__all__') 
         extra_fields=('ticketMedia')
+        depth=1
          
 
 class ProjectSerializer(serializers.ModelSerializer):

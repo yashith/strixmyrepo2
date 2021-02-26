@@ -1,14 +1,23 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { useFormik } from 'formik';
 import { Container, Row, Form, Button, Col } from 'react-bootstrap';
-import getTickets,{createTicket} from '../../../Services/TicketService';
+import getTickets, { createTicket } from '../../../Services/TicketService';
 import { light } from '@material-ui/core/styles/createPalette';
 
 function IsseForm(props,) {
 
 
+const [selectedFile,setselectedFile]=useState();
+const [isFilepicked,setisFilepicked]=useState(false);
 
-    async function create_Ticket(response){
+const changeHandler=(event)=>{
+    var blob = new Blob([event.target.files[0]],{type:'any/any'})
+    setselectedFile(blob);
+    setisFilepicked(true);
+}
+
+
+    async function create_Ticket(response) {
         await createTicket(response);
         await props.reload();
     }
@@ -41,27 +50,29 @@ function IsseForm(props,) {
             title: '',
             priority: '',
             bugtype: '',
-            severity: '',           
+            severity: '',
             summary: '',
             project: '',
+            
         },
         validate,
         onSubmit: values => {
 
             // props.setbuglist([...props.buglist, { priority: values.priority, bugtype: values.bugtype, summary: values.summary, title: values.title, id: Math.floor(Math.random() * 1000) }]);
 
-            let response=({
+            let response = ({
                 issuename: values.title,
                 priority: values.priority,
                 bugtype: values.bugtype,
-                severity: values.severity, 
+                severity: values.severity,
                 issuedescription: values.summary,
-                project:props.project,
-                workstate:2,//Change
-                externaluser:15,//Change
-                totaleffort:0,//Change
+                project: props.project,
+                workstate: 2,//Change
+                externaluser: 15,//Change
+                totaleffort: 0,//Change,
+                ticketMedia: selectedFile,
 
-                })
+            })
 
             create_Ticket(response);
 
@@ -73,51 +84,51 @@ function IsseForm(props,) {
     });
     async function startCapture(displayMediaOptions) {
         let Stream = null;
-      
+
         try {
-          Stream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
-         
+            Stream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
+
             capstreme(Stream)
-        
+
         } catch (err) {
-          console.error("Error: " + err);
+            console.error("Error: " + err);
         }
         return Stream
-       
-      }
-      let recordedChunks=[]
-      function capstreme(stream) {
+
+    }
+    let recordedChunks = []
+    function capstreme(stream) {
         let mediaRecorder = new MediaRecorder(stream)
         mediaRecorder.ondataavailable = handleDataAvailable;
         mediaRecorder.start();
-      
+
         function handleDataAvailable(event) {
-          console.log("data-available");
-          if (event.data.size > 0) {
-            recordedChunks.push(event.data);
-            console.log(recordedChunks);
-            download();
-          } else {
-            // ...
-          }
+            console.log("data-available");
+            if (event.data.size > 0) {
+                recordedChunks.push(event.data);
+                console.log(recordedChunks);
+                download();
+            } else {
+                // ...
+            }
         }
         function download() {
-          var blob = new Blob(recordedChunks, {
-            type: "video/mp4"
-          });
-          var url = URL.createObjectURL(blob);
-          var a = document.createElement("a");
-          document.body.appendChild(a);
-          a.style = "display: none";
-          a.href = url;
-          a.download = "test.mp4";
-          a.click();
-          window.URL.revokeObjectURL(url);
+            var blob = new Blob(recordedChunks, {
+                type: "video/mp4"
+            });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement("a");
+            document.body.appendChild(a);
+            a.style = "display: none";
+            a.href = url;
+            a.download = "test.mp4";
+            a.click();
+            window.URL.revokeObjectURL(url);
         }
-      }
-      
+    }
+
     const prioritylist = ['low', 'medium', 'high', 'urgent'];
-    const typelist = ['Functional', 'Performance','Usability', 'Compatibility', 'Security'];
+    const typelist = ['Functional', 'Performance', 'Usability', 'Compatibility', 'Security'];
     const severitylist = ['critical', 'high', 'medium', 'low']
 
     return (
@@ -136,7 +147,7 @@ function IsseForm(props,) {
                     <Form.Label>Priority</Form.Label>
                     <Form.Control as="select" name="priority" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.priority} >{/*set error handler*/}
                         <option value="">Select priority</option>
-                        {prioritylist.map((priority) => <option value={priority} label={priority} key={priority}/>)}
+                        {prioritylist.map((priority) => <option value={priority} label={priority} key={priority} />)}
                     </Form.Control>
                     {formik.errors.priority && formik.touched.priority ? <Form.Text style={warningstyle}>{formik.errors.priority}</Form.Text> : null}
                 </Form.Group>
@@ -145,8 +156,8 @@ function IsseForm(props,) {
                     <Form.Label>BugType</Form.Label>
                     <Form.Control as="select" name="bugtype" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.severity}>{/*set error handler*/}
                         <option value="">Select Type</option>
-                        {typelist.map((bugtype) => <option value={bugtype} label={bugtype} key={bugtype}/>)}
-                        
+                        {typelist.map((bugtype) => <option value={bugtype} label={bugtype} key={bugtype} />)}
+
                     </Form.Control>
                     {formik.errors.bugtype && formik.touched.bugtype ? <Form.Text style={warningstyle}>{formik.errors.bugtype}</Form.Text> : null}
                 </Form.Group>
@@ -154,8 +165,8 @@ function IsseForm(props,) {
                 <Form.Group >
                     <Form.Label>Severity</Form.Label>
                     <Form.Control as="select" name="severity" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.bugtype}>{/*set error handler*/}
-                    <option value="">Select severity</option>
-                    {severitylist.map((severity) => <option value={severity} label={severity} key={severity} />)}
+                        <option value="">Select severity</option>
+                        {severitylist.map((severity) => <option value={severity} label={severity} key={severity} />)}
 
 
                     </Form.Control>
@@ -172,12 +183,13 @@ function IsseForm(props,) {
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>Attachments</Form.Label>
-                    <Form.File name="attachments" ></Form.File>
+                    <Form.File name="attachments" onChange={changeHandler}></Form.File>
                     <Button variant="danger" onClick={startCapture}>Record</Button>
                 </Form.Group>
 
                 <Button type='submit' style={{ marginRight: '20px' }} >Add issue</Button>
                 <Button type='button' onClick={props.cl} >Close</Button>
+                <Button type='button' onClick={()=>console.log(selectedFile)} >testfileupload</Button>
 
 
 
