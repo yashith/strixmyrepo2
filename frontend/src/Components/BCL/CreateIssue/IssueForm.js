@@ -71,6 +71,51 @@ function IsseForm(props,) {
 
 
     });
+    async function startCapture(displayMediaOptions) {
+        let Stream = null;
+      
+        try {
+          Stream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
+         
+            capstreme(Stream)
+        
+        } catch (err) {
+          console.error("Error: " + err);
+        }
+        return Stream
+       
+      }
+      let recordedChunks=[]
+      function capstreme(stream) {
+        let mediaRecorder = new MediaRecorder(stream)
+        mediaRecorder.ondataavailable = handleDataAvailable;
+        mediaRecorder.start();
+      
+        function handleDataAvailable(event) {
+          console.log("data-available");
+          if (event.data.size > 0) {
+            recordedChunks.push(event.data);
+            console.log(recordedChunks);
+            download();
+          } else {
+            // ...
+          }
+        }
+        function download() {
+          var blob = new Blob(recordedChunks, {
+            type: "video/mp4"
+          });
+          var url = URL.createObjectURL(blob);
+          var a = document.createElement("a");
+          document.body.appendChild(a);
+          a.style = "display: none";
+          a.href = url;
+          a.download = "test.mp4";
+          a.click();
+          window.URL.revokeObjectURL(url);
+        }
+      }
+      
     const prioritylist = ['low', 'medium', 'high', 'urgent'];
     const typelist = ['Functional', 'Performance','Usability', 'Compatibility', 'Security'];
     const severitylist = ['critical', 'high', 'medium', 'low']
@@ -128,6 +173,7 @@ function IsseForm(props,) {
                 <Form.Group>
                     <Form.Label>Attachments</Form.Label>
                     <Form.File name="attachments" ></Form.File>
+                    <Button variant="danger" onClick={startCapture}>Record</Button>
                 </Form.Group>
 
                 <Button type='submit' style={{ marginRight: '20px' }} >Add issue</Button>

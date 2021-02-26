@@ -34,15 +34,59 @@ function severitytype(severity) {
 
   switch (severity) {
     case 'critical':
-      return (<Tooltip title="critical"><ArrowUpwardIcon style={{ color: "#dc3545" }}/></Tooltip>);
+      return (<Tooltip title="critical"><ArrowUpwardIcon style={{ color: "#dc3545" }} /></Tooltip>);
     case 'high':
-      return (<Tooltip title="high"><ArrowUpwardIcon style={{ color: "#ffc107" }}/></Tooltip>);
+      return (<Tooltip title="high"><ArrowUpwardIcon style={{ color: "#ffc107" }} /></Tooltip>);
     case 'medium':
-      return (<Tooltip title="medium"><ArrowDownwardIcon style={{ color: "#007bff" }}/></Tooltip>);
+      return (<Tooltip title="medium"><ArrowDownwardIcon style={{ color: "#007bff" }} /></Tooltip>);
     case 'low':
-      return (<Tooltip title="low"><ArrowDownwardIcon style={{ color: "#28a745" }}/></Tooltip>);
+      return (<Tooltip title="low"><ArrowDownwardIcon style={{ color: "#28a745" }} /></Tooltip>);
   }
 }
+
+// Recording function
+async function startCapture(displayMediaOptions) {
+  let captureStream = null;
+
+  try {
+    captureStream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
+  } catch (err) {
+    console.error("Error: " + err);
+  }
+  capstreme(captureStream)
+}
+let recordedChunks=[]
+function capstreme(stream) {
+  let mediaRecorder = new MediaRecorder(stream)
+  mediaRecorder.ondataavailable = handleDataAvailable;
+  mediaRecorder.start();
+
+  function handleDataAvailable(event) {
+    console.log("data-available");
+    if (event.data.size > 0) {
+      recordedChunks.push(event.data);
+      console.log(recordedChunks);
+      download();
+    } else {
+      // ...
+    }
+  }
+  function download() {
+    var blob = new Blob(recordedChunks, {
+      type: "video/mp4"
+    });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    document.body.appendChild(a);
+    a.style = "display: none";
+    a.href = url;
+    a.download = "test.mp4";
+    a.click();
+    window.URL.revokeObjectURL(url);
+  }
+}
+
+////////////////////////////////////////////////////
 
 function IssueBacklogBCL() {
 
@@ -51,28 +95,30 @@ function IssueBacklogBCL() {
   const [pdetails, setpdetails] = useState([{ description: "", projectname: "" }])
   let loc = useLocation().project
 
-  const columns = React.useMemo(
-    () => [
-      {
-        Header: 'ID',
-        accessor: 'id',
-        Cell: ({ value }) => (<span>{value}</span>),
-      },
-      {
-        Header: 'Title',
-        accessor: 'issuename'
-      },
-      {
-        Header: 'Prority',
-        accessor: 'priority',
-        Cell: ({ value }) => (<Badge variant={bagetype(value)}>{value}</Badge>),
+  //used for React-table remove if unnecessary
+
+  // const columns = React.useMemo(
+  //   () => [
+  //     {
+  //       Header: 'ID',
+  //       accessor: 'id',
+  //       Cell: ({ value }) => (<span>{value}</span>),
+  //     },
+  //     {
+  //       Header: 'Title',
+  //       accessor: 'issuename'
+  //     },
+  //     {
+  //       Header: 'Prority',
+  //       accessor: 'priority',
+  //       Cell: ({ value }) => (<Badge variant={bagetype(value)}>{value}</Badge>),
 
 
 
-      }
-    ],
-    []
-  )
+  //     }
+  //   ],
+  //   []
+  // )
 
 
 
@@ -196,23 +242,23 @@ function IssueBacklogBCL() {
               </div>
             </Row>
             <Row>
-              <Card style={{minWidth:'100%'}}>
-              <div style={{ minWidth: '100%' }}>
-                <MaterialTable
-                  columns={[
-                    { title: 'Id', field: 'id' },
-                    { title: 'Title', field: 'issuename' },
-                    { title: "Date", field: "date",},
-                    { title: 'Priority', field: 'priority', render: rowData => <Badge variant={bagetype(rowData.priority)}>{rowData.priority}</Badge> ,customSort: (a, b) => a.priorityid - b.priorityid},
-                    { title: 'Severity', field: 'severity',render: rowData => severitytype(rowData.severity) ,customSort: (a, b) => a.severityid - b.severityid}
-                    
-                  ]}
-                  data={buglist}
-                  title="Issues"
-                  onRowClick={(event,rowData)=>{tableticket(rowData.id)}}
-                />
+              <Card style={{ minWidth: '100%' }}>
+                <div style={{ minWidth: '100%' }}>
+                  <MaterialTable
+                    columns={[
+                      { title: 'Id', field: 'id' },
+                      { title: 'Title', field: 'issuename' },
+                      { title: "Date", field: "date", },
+                      { title: 'Priority', field: 'priority', render: rowData => <Badge variant={bagetype(rowData.priority)}>{rowData.priority}</Badge>, customSort: (a, b) => a.priorityid - b.priorityid },
+                      { title: 'Severity', field: 'severity', render: rowData => severitytype(rowData.severity), customSort: (a, b) => a.severityid - b.severityid }
 
-              </div>
+                    ]}
+                    data={buglist}
+                    title="Issues"
+                    onRowClick={(event, rowData) => { tableticket(rowData.id) }}
+                  />
+
+                </div>
               </Card>
 
 
@@ -221,6 +267,7 @@ function IssueBacklogBCL() {
           </Col>
         </div>
       </Row>
+      <Button onClick={startCapture}> Video rec</Button>
     </div>
   )
 
