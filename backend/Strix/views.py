@@ -16,7 +16,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.tokens import default_token_generator
 from .MailService import *
 from django.utils.http import urlsafe_base64_decode
-from .serializer import TicketSerializer,ProjectSerializer
+from .serializer import *
 
 
 class Login(APIView):
@@ -206,3 +206,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
         if filter_value is not None:
             queryset = queryset.filter(id=filter_value)
         return queryset
+
+class TicketMediaViewset(viewsets.ModelViewSet):
+    queryset=TicketMedia.objects.all()
+    serializer_class=MediaSerializer

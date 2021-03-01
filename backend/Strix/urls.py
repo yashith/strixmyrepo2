@@ -18,6 +18,11 @@ getProject=views.ProjectViewSet.as_view({
     'get': 'list',
 })
 
+getTicketMedia=views.TicketMediaViewset.as_view({
+    'get': 'list',
+    'post':'create',
+})
+
 
 
 urlpatterns = [
@@ -38,6 +43,7 @@ urlpatterns = [
     path('getTicket/',getTickets,name="get_Tickets"),
     path('getTicket/<str:pk>',getaATicket,name="get_Ticket"),
     path('getProject/',getProject,name="get_project_Details"),
+    path('getTicketMedia/',getTicketMedia,name="get_ticket_media"),
 ]
 
 

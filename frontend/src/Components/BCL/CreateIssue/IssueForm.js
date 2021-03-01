@@ -20,6 +20,7 @@ const changeHandler=(event)=>{
     async function create_Ticket(response) {
         await createTicket(response);
         await props.reload();
+        
     }
 
     const warningstyle = { color: 'red' };
@@ -70,7 +71,7 @@ const changeHandler=(event)=>{
                 workstate: 2,//Change
                 externaluser: 15,//Change
                 totaleffort: 0,//Change,
-                ticketMedia: selectedFile,
+                ticketMedia:{files:selectedFile},
 
             })
 
