@@ -157,7 +157,7 @@ function IsseForm(props,) {
 
                 <Form.Group >
                     <Form.Label>BugType</Form.Label>
-                    <Form.Control as="select" name="bugtype" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.severity}>{/*set error handler*/}
+                    <Form.Control as="select" name="bugtype" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.bugtype}>{/*set error handler*/}
                         <option value="">Select Type</option>
 
                         {typelist.map((bugtype) => <option value={bugtype} label={bugtype} key={bugtype} />)}
@@ -168,7 +168,7 @@ function IsseForm(props,) {
 
                 <Form.Group >
                     <Form.Label>Severity</Form.Label>
-                    <Form.Control as="select" name="severity" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.bugtype}>{/*set error handler*/}
+                    <Form.Control as="select" name="severity" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.severity}>{/*set error handler*/}
                         <option value="">Select severity</option>
                         {severitylist.map((severity) => <option value={severity} label={severity} key={severity} />)}
                     </Form.Control>
