@@ -1,26 +1,28 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
-import { Container, Row, Form, Button, Col } from 'react-bootstrap';
+import { Container, Row, Form, Button, Col, Card } from 'react-bootstrap';
 import getTickets, { createTicket } from '../../../Services/TicketService';
 import { light } from '@material-ui/core/styles/createPalette';
 
 function IsseForm(props,) {
 
 
-const [selectedFile,setselectedFile]=useState();
-const [isFilepicked,setisFilepicked]=useState(false);
+    const [selectedFile, setselectedFile] = useState();
+    const [isFilepicked, setisFilepicked] = useState(false);
 
-const changeHandler=(event)=>{
-    var blob = new Blob([event.target.files[0]],{type:'any/any'})
-    setselectedFile(blob);
-    setisFilepicked(true);
-}
+    const changeHandler = (event) => {
+        var blob = new Blob([event.target.files[0]], { type: 'any/any' })
+        // var fileobject=event.target.files[0]
+        // var ob
+        setselectedFile(blob);
+        setisFilepicked(true);
+    }
 
 
     async function create_Ticket(response) {
         await createTicket(response);
         await props.reload();
-        
+
     }
 
     const warningstyle = { color: 'red' };
@@ -54,7 +56,7 @@ const changeHandler=(event)=>{
             severity: '',
             summary: '',
             project: '',
-            
+
         },
         validate,
         onSubmit: values => {
@@ -71,7 +73,7 @@ const changeHandler=(event)=>{
                 workstate: 2,//Change
                 externaluser: 15,//Change
                 totaleffort: 0,//Change,
-                ticketMedia:{files:selectedFile},
+                ticketMedia: { files: selectedFile },
 
             })
 
@@ -157,6 +159,7 @@ const changeHandler=(event)=>{
                     <Form.Label>BugType</Form.Label>
                     <Form.Control as="select" name="bugtype" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.severity}>{/*set error handler*/}
                         <option value="">Select Type</option>
+
                         {typelist.map((bugtype) => <option value={bugtype} label={bugtype} key={bugtype} />)}
 
                     </Form.Control>
@@ -168,8 +171,6 @@ const changeHandler=(event)=>{
                     <Form.Control as="select" name="severity" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.bugtype}>{/*set error handler*/}
                         <option value="">Select severity</option>
                         {severitylist.map((severity) => <option value={severity} label={severity} key={severity} />)}
-
-
                     </Form.Control>
                     {formik.errors.severity && formik.touched.severity ? <Form.Text style={warningstyle}>{formik.errors.severity}</Form.Text> : null}
                 </Form.Group>
@@ -184,13 +185,36 @@ const changeHandler=(event)=>{
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>Attachments</Form.Label>
-                    <Form.File name="attachments" onChange={changeHandler}></Form.File>
-                    <Button variant="danger" onClick={startCapture}>Record</Button>
+                    <div style={{ display: "flex" }}>
+
+                        <div style={{ width: "50%" }}>
+                            <Card>
+                                <Card.Header>Attachments</Card.Header>
+                                <Card.Body>
+                                    <Form.File name="attachments" onChange={changeHandler}></Form.File>
+                                </Card.Body>
+
+                            </Card>
+
+                        </div>
+                        <div style={{ width: "50%" }}>
+
+                            <Card>
+                                <Card.Header>Record Screen</Card.Header>
+                                <Card.Body style={{ padding: "15px" }}>
+                                    <Button variant="danger" onClick={startCapture}>Record Screen</Button>
+                                </Card.Body>
+
+                            </Card>
+                        </div>
+                    </div>
+
+
                 </Form.Group>
 
                 <Button type='submit' style={{ marginRight: '20px' }} >Add issue</Button>
                 <Button type='button' onClick={props.cl} >Close</Button>
-                <Button type='button' onClick={()=>console.log(selectedFile)} >testfileupload</Button>
+                <Button type='button' onClick={() => startCapture}>testfileupload</Button>
 
 
 
