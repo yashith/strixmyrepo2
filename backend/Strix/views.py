@@ -210,3 +210,8 @@ class ProjectViewSet(viewsets.ModelViewSet):
 class TicketMediaViewset(viewsets.ModelViewSet):
     queryset=TicketMedia.objects.all()
     serializer_class=MediaSerializer
+
+class UserViewset(viewsets.ModelViewSet):
+    queryset=User.objects.all()
+    serializer_class=UserSerializer
+    
