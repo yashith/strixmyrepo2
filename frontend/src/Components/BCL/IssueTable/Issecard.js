@@ -63,8 +63,8 @@ function IssueCard(props) {
                                     }
                                 }>
                                     <h5>Assignee: </h5>
-                                    <h5>Reporter: </h5>
-                                    <h5>Created: </h5>
+                                    <h5>Reporter:{props.reporter} </h5>
+                                    <h5>Created:{props.created} </h5>
                                     <h5>Updated: </h5>
                                 </Col>
 

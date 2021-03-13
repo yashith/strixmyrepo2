@@ -44,17 +44,8 @@ function severitytype(severity) {
   }
 }
 
-// Recording function
-async function startCapture(displayMediaOptions) {
-  let captureStream = null;
 
-  try {
-    captureStream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
-  } catch (err) {
-    console.error("Error: " + err);
-  }
-  capstreme(captureStream)
-}
+
 let recordedChunks=[]
 function capstreme(stream) {
   let mediaRecorder = new MediaRecorder(stream)
@@ -132,7 +123,9 @@ function IssueBacklogBCL() {
           type={buglist[i].bugtype}
           summary={buglist[i].issuedescription}
           variant={bagetype(buglist[i].priority)}
-          severity={buglist[i].severity} />);
+          severity={buglist[i].severity}
+          reporter={buglist[i].createdby.fullname} 
+          created={buglist[i].date}/>);
       }
     }
 
@@ -267,7 +260,6 @@ function IssueBacklogBCL() {
           </Col>
         </div>
       </Row>
-      <Button onClick={startCapture}> Video rec</Button>
     </div>
   )
 

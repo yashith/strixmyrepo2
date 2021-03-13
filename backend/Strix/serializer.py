@@ -13,17 +13,26 @@ class DeveloperSerializer((serializers.ModelSerializer)):
         fields='__all__'
 
 class UserSerializer((serializers.ModelSerializer)):
+    fullname=serializers.SerializerMethodField('full_name')
+    def full_name(self,obj):
+            name=obj.first_name +" "+ obj.last_name           
+            return name
     class Meta:
         model=User
-        fields=['first_name','last_name']
+        fields=['first_name','last_name','fullname']
+        
+        
 class TicketSerializer(serializers.ModelSerializer):
     ticketMedia=MediaSerializer(many=True,read_only=True)
     createdby=UserSerializer(read_only=True,source='externaluser')
     
+    
+        
     class Meta:
         model=Ticket
         fields=('__all__') 
         extra_fields=('ticketMedia','createdby')
+
         
         def create(self,validated_data):
             ticketMedia=validated_data.pop('ticketMedia')
@@ -31,7 +40,7 @@ class TicketSerializer(serializers.ModelSerializer):
             for media in ticketMedia:
                 TicketMedia.objects.create(**media,issuename=ticket)
             return ticket
-        
+    
         
 
         
