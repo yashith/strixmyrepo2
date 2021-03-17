@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useFormik } from 'formik';
+import { useFormik,} from 'formik';
 import { Container, Row, Form, Button, Col, Card } from 'react-bootstrap';
 import getTickets, { createTicket } from '../../../Services/TicketService';
 import { light } from '@material-ui/core/styles/createPalette';
@@ -61,23 +61,20 @@ function IsseForm(props,) {
         validate,
         onSubmit: values => {
 
-            // props.setbuglist([...props.buglist, { priority: values.priority, bugtype: values.bugtype, summary: values.summary, title: values.title, id: Math.floor(Math.random() * 1000) }]);
+            
+            let form_data = new FormData()
+            form_data.append('issuename', values.title)
+            form_data.append('issuedescription', values.summary)
+            form_data.append('priority', values.priority)
+            form_data.append('bugtype', values.bugtype)
+            form_data.append('severity', values.severity)
+            form_data.append('project', props.project)
+            form_data.append('workstate', 2)
+            form_data.append('externaluser', 15)
+            form_data.append('totaleffort', 10)
+            form_data.append('ticketMedia', values.ticketMedia)
 
-            let response = ({
-                issuename: values.title,
-                priority: values.priority,
-                bugtype: values.bugtype,
-                severity: values.severity,
-                issuedescription: values.summary,
-                project: props.project,
-                workstate: 2,//Change
-                externaluser: 15,//Change
-                totaleffort: 0,//Change,
-                ticketMedia: { files: selectedFile },
-
-            })
-
-            create_Ticket(response);
+            create_Ticket(form_data);
 
             props.cl();
         },
@@ -191,7 +188,9 @@ function IsseForm(props,) {
                             <Card>
                                 <Card.Header>Attachments</Card.Header>
                                 <Card.Body>
-                                    <Form.File name="attachments" onChange={changeHandler}></Form.File>
+                                    <input id="ticketMedia" name="ticketMedia" type="file" onChange={(event) => {
+                                       formik.setFieldValue("ticketMedia", event.currentTarget.files[0]);
+                                    }} />
                                 </Card.Body>
 
                             </Card>
