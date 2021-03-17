@@ -23,7 +23,7 @@ class UserSerializer((serializers.ModelSerializer)):
         
         
 class TicketSerializer(serializers.ModelSerializer):
-    ticketMedia=MediaSerializer(many=True,read_only=True)
+    ticketMedia=MediaSerializer(source='ticketmedia_set',many=True)
     createdby=UserSerializer(read_only=True,source='externaluser')
     
     
@@ -40,12 +40,6 @@ class TicketSerializer(serializers.ModelSerializer):
             for media in ticketMedia:
                 TicketMedia.objects.create(**media,issuename=ticket)
             return ticket
-    
-        
-
-        
-         
-
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model=Project
