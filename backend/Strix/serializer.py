@@ -25,13 +25,14 @@ class UserSerializer((serializers.ModelSerializer)):
 class TicketSerializer(serializers.ModelSerializer):
     ticketMedia=MediaSerializer(source='ticketmedia_set',many=True)
     createdby=UserSerializer(read_only=True,source='externaluser')
+    workstatetext=serializers.StringRelatedField(source='workstate')
     
     
         
     class Meta:
         model=Ticket
         fields=('__all__') 
-        extra_fields=('ticketMedia','createdby')
+        extra_fields=('ticketMedia','createdby','workstatetext')
 
         
         def create(self,validated_data):

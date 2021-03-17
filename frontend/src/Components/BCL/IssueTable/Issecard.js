@@ -19,7 +19,7 @@ function IssueCard(props) {
                                     <h5>Type: <span style={{color:'gray'}}>{props.type} </span></h5>
                                 </Col>
                                 <Col>
-                                    <h5 >Status: </h5>
+                                    <h5 >Status:<span>{props.status}</span></h5>
                                 </Col>
                             </Row>
                             <Row>

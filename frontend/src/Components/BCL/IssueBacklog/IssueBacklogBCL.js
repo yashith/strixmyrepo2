@@ -125,7 +125,8 @@ function IssueBacklogBCL() {
           variant={bagetype(buglist[i].priority)}
           severity={buglist[i].severity}
           reporter={buglist[i].createdby.fullname} 
-          created={buglist[i].date}/>);
+          created={buglist[i].date}
+          status={buglist[i].workstatetext}/>);
       }
     }
 
