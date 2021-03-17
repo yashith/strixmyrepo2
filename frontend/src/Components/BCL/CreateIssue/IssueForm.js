@@ -75,8 +75,9 @@ function IsseForm(props,) {
             form_data.append('ticketMedia', values.ticketMedia)
 
             create_Ticket(form_data);
-
-            props.cl();
+            console.log(values.ticketMedia[0])
+            console.log(values.ticketMedia[1])
+            // props.cl();
         },
 
 
@@ -189,8 +190,8 @@ function IsseForm(props,) {
                                 <Card.Header>Attachments</Card.Header>
                                 <Card.Body>
                                     <input id="ticketMedia" name="ticketMedia" type="file" onChange={(event) => {
-                                       formik.setFieldValue("ticketMedia", event.currentTarget.files[0]);
-                                    }} />
+                                       formik.setFieldValue("ticketMedia", event.currentTarget.files);
+                                    }} multiple/>
                                 </Card.Body>
 
                             </Card>
