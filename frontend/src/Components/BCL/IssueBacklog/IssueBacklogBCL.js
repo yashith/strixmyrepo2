@@ -126,7 +126,8 @@ function IssueBacklogBCL() {
           severity={buglist[i].severity}
           reporter={buglist[i].createdby.fullname} 
           created={buglist[i].date}
-          status={buglist[i].workstatetext}/>);
+          status={buglist[i].workstatetext}
+          attachment={buglist[i].ticketMedia}/>);
       }
     }
 
@@ -254,9 +255,6 @@ function IssueBacklogBCL() {
 
                 </div>
               </Card>
-
-
-
             </Row>
           </Col>
         </div>

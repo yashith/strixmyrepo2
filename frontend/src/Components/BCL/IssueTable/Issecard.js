@@ -1,6 +1,18 @@
 import React, { useState } from 'react';
 import { Card, Container, Badge, Col, Row, Button, Modal } from 'react-bootstrap'
 import Comment from './Comment'
+
+function Attachments({attach}){
+    if(attach!=null){
+        return(attach.map((attach)=>
+            (<a href={attach.files} target="_blank"><img src={attach.files} style={{height:'50px',widows:'50px',objectFit:"cover"}}/></a>)
+        ))  
+    }
+    else{
+        return(<div></div>);
+    }
+}
+
 function IssueCard(props) {
     const [modalopen, setmodalopen] = useState(true)
     return (
@@ -49,7 +61,10 @@ function IssueCard(props) {
                                     border: '1px solid gray'
                                 }
                             }>
-                                <h4>Attachments</h4>
+                                <div style={{width:'100%',height:'auto'}}>
+                                    <Col><h4>Attachments</h4></Col>
+                                </div>
+                                <div style={{width:'100%',height:'auto', display:'flex'}}><Attachments attach={props.attachment}/></div>    
                             </Row>
                         </Col>
 

@@ -217,7 +217,7 @@ function IsseForm(props,) {
 
                 <Button type='submit' style={{ marginRight: '20px' }} >Add issue</Button>
                 <Button type='button' onClick={props.cl} >Close</Button>
-                <Button type='button' onClick={() => startCapture}>testfileupload</Button>
+                
 
 
 
