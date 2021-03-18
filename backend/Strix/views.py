@@ -238,7 +238,7 @@ class TicketViewSet(viewsets.ModelViewSet):
         
         
 
-        print(data['ticketMedia'])
+        # print(data['ticketMedia'])
         # print(request.FILES.getlist('ticketMedia'))
         for media in ticket_media:
             MediaInstance = TicketMedia.objects.create(

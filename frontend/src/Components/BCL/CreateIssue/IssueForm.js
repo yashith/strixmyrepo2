@@ -74,10 +74,13 @@ function IsseForm(props,) {
             form_data.append('totaleffort', 10)
             form_data.append('ticketMedia', values.ticketMedia)
 
+            for (let i=0;i<values.ticketMedia.length;i++){
+                form_data.append('ticketMedia', values.ticketMedia[i])
+            }
             create_Ticket(form_data);
             console.log(values.ticketMedia[0])
             console.log(values.ticketMedia[1])
-            // props.cl();
+            props.cl();
         },
 
 
