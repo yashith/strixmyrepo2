@@ -4,9 +4,16 @@ import Comment from './Comment'
 
 function Attachments({attach}){
     if(attach!=null){
-        return(attach.map((attach)=>
-            (<a href={attach.files} target="_blank"><img src={attach.files} style={{height:'50px',widows:'50px',objectFit:"cover"}}/></a>)
-        ))  
+        // return(attach.map((attach)=>
+        //     (<a href={attach.files} target="_blank"><img src={attach.files} style={{height:'50px',widows:'50px',objectFit:"cover"}}/></a>)
+        //     // (<ul>
+        //     //     <li><a href={attach.files}>{attach.files}</a></li>
+        //     // </ul>)
+        // ))
+        let i=0;
+        return(<ul>
+            {attach.map((attach,index)=>(<li><a href={attach.files}>file{index}</a></li>))}
+        </ul>)  
     }
     else{
         return(<div></div>);

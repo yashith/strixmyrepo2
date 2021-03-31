@@ -2,7 +2,7 @@ import React, { useState, useEffect, } from 'react';
 import SetPagination from '../../Common/Pagination/Pagination';
 import { Table, Row, Col, Button, Card, NavLink, Form, FormControl, Modal, Badge } from 'react-bootstrap';
 import IssueForm from '../CreateIssue/IssueForm'
-import Issuecard from '../IssueTable/Issecard'
+import Issuecard from '../IssueTable/Issuecard'
 import './table.css';
 import { render } from '@testing-library/react';
 import { BrowserRouter as Router, Route, Link, Switch, useLocation, useParams } from "react-router-dom";
