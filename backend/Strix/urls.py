@@ -26,6 +26,9 @@ getTicketMedia=views.TicketMediaViewset.as_view({
 getUser=views.UserViewset.as_view({
     'get': 'list',
 })
+getSprintSummary=views.SprintSummary.as_view({
+    'get': 'list',
+})
 
 
 
@@ -49,6 +52,7 @@ urlpatterns = [
     path('getProject/',getProject,name="get_project_Details"),
     path('getTicketMedia/',getTicketMedia,name="get_ticket_media"),
     path('getUsers/',getUser,name="get_users"),
+    path('getSprintSummary/',getSprintSummary,name="get_Sprint_Sum"),
 ]
 
 

@@ -17,6 +17,7 @@ from django.contrib.auth.tokens import default_token_generator
 from .MailService import *
 from django.utils.http import urlsafe_base64_decode
 from .serializer import *
+from django.db import connection
 
 
 class Login(APIView):
@@ -214,39 +215,54 @@ class TicketViewSet(viewsets.ModelViewSet):
         if filter_value is not None:
             queryset = queryset.filter(project=filter_value)
         return queryset
+
     def create(self, request, *args, **kwargs):
         ticket_media = request.FILES.getlist('ticketMedia')
-         
+
         data = request.POST
 
         ticket_current = Ticket.objects.create(
-            issuename = data['issuename'],
-            issuedescription = data['issuedescription'],
-            bugtype = data['bugtype'],
-            priority = data['priority'],
-            severity = data['severity'],
-            bspstatus = False,
-            approval = False,
-            totaleffort = data['totaleffort'],
-            review = False,
-            project = Project.objects.get(id=data['project']),
-            workstate = Workstate.objects.get(id=data['workstate']),
-            externaluser = User.objects.get(id=data['externaluser'])
+            issuename=data['issuename'],
+            issuedescription=data['issuedescription'],
+            bugtype=data['bugtype'],
+            priority=data['priority'],
+            severity=data['severity'],
+            bspstatus=False,
+            approval=False,
+            totaleffort=data['totaleffort'],
+            review=False,
+            project=Project.objects.get(id=data['project']),
+            workstate=Workstate.objects.get(id=data['workstate']),
+            externaluser=User.objects.get(id=data['externaluser'])
         )
 
         ticket_current.save()
-        
-        
 
         # print(data['ticketMedia'])
         # print(request.FILES.getlist('ticketMedia'))
         for media in ticket_media:
             MediaInstance = TicketMedia.objects.create(
-                issuename = ticket_current,
-                files = media
+                issuename=ticket_current,
+                files=media
             )
 
             MediaInstance.save()
 
-      
-        return Response({"data":"success"}, status=200)
+        return Response({"data": "success"}, status=200)
+
+
+# Sprint summary View
+
+
+class SprintSummary(viewsets.ModelViewSet):
+    queryset = Sprint.objects.all()
+    serializer_class = SprintSummarySerializer
+
+    def get_queryset(self):  # filter by id query
+        queryset = self.queryset
+        filter_value = self.request.query_params.get('id', None)
+        if filter_value is not None:
+            queryset = queryset.filter(id=filter_value)
+        return queryset
+
+        
