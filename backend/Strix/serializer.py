@@ -57,6 +57,8 @@ class SprintSummarySerializer(serializers.ModelSerializer):
     finished = serializers.SerializerMethodField()
     total = serializers.SerializerMethodField()
     active = serializers.SerializerMethodField()
+    estimated_hours = serializers.SerializerMethodField()
+    actual_hours = serializers.SerializerMethodField()
 
     def get_finished(self, obj):
         y = 0
@@ -71,11 +73,24 @@ class SprintSummarySerializer(serializers.ModelSerializer):
     def get_active(self, obj):
         y = 0
         for x in obj.ticketlist.all():
-            if(x.workstate.id>1):
-                y+=1
-        
+            if(x.workstate.id > 1):
+                y += 1
+
         return(y-obj.ticketlist.all().count())
+
+    def get_estimated_hours(self, obj):
+        enddate = obj.intialenddate
+        startdate = obj.startdate
+        return((enddate-startdate)/3600)
+
+    def get_actual_hours(self, obj):
+        startdate = obj.startdate
+        enddate = obj.enddate
+        if (enddate is not None and (enddate-startdate) is not None and (enddate-startdate)>0):
+            return((enddate-startdate)/3600)
+        else:
+            return('Sprint is not finished')
+
     class Meta:
         model = Sprint
         fields = ('__all__')
-        
