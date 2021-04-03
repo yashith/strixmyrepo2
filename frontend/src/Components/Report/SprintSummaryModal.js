@@ -18,7 +18,7 @@ function SprintModal(props) {
                             </Row>
                             <Row>
                                 <Col>
-                                    <h5>Total: <span style={{color:'gray'}}>{props.total} </span></h5>
+                                    <h5>Total: <span><Badge variant="primary">{props.total} </Badge></span></h5>
                                 </Col>
                                 <Col>
                                     <h5 >Start date:<span>{props.sdate}</span></h5>
@@ -26,7 +26,7 @@ function SprintModal(props) {
                             </Row>
                             <Row>
                                 <Col>
-                                    <h5>Active : {props.active}</h5>
+                                    <h5>Active : <span><Badge variant="warning">{props.active} </Badge></span></h5>
                                 </Col>
                                 <Col>
                                     <h5>End date : <span>{props.edate}</span></h5>
@@ -34,7 +34,7 @@ function SprintModal(props) {
                             </Row>
                             <Row>
                             <Col>
-                                    <h5>Completed : <span>{props.compleated}</span></h5>
+                                    <h5>Completed : <span><Badge variant="success">{props.compleated} </Badge></span></h5>
                                 </Col>
                             </Row>
                         </Col>

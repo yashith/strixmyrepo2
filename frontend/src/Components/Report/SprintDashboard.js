@@ -9,7 +9,7 @@ import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import Tooltip from '@material-ui/core/Tooltip';
 import getSprintSummary from '../../Services/SprintSummaryService'
-
+import SprintModal from './SprintSummaryModal';
 
 
 
@@ -47,6 +47,24 @@ function SprintDashboard() {
 
         return () => { isMounted = false }
     }, [])
+
+    function sprintdetails(e) {
+        for (var i = 0; i < sprintlist.length; i++) {
+          if (sprintlist[i].id === e) {
+            render(<SprintModal
+              name={sprintlist[i].name}
+              total={sprintlist[i].total}
+              sdate={sprintlist[i].startdate}
+              active={sprintlist[i].active}
+              edate={sprintlist[i].intialenddate}
+              compleated={sprintlist[i].finished}
+
+            />);
+          }
+        }
+    
+      }
+
     return (
         <div>
             <link
@@ -68,6 +86,7 @@ function SprintDashboard() {
                 }
                 data={sprintlist}
                 title="sprints"
+                onRowClick={(event, rowData) => { sprintdetails(rowData.id) }}
             />
 
         </div>

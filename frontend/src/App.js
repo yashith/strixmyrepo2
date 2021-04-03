@@ -7,8 +7,8 @@ function App() {
   return (
     <div className="App">
       {/* <Auth /> */}
-      {/* <SprintDashboard/> */}
-      <SprintModal/>
+      <SprintDashboard/>
+      {/* <SprintModal/> */}
     </div>
   );
 };
