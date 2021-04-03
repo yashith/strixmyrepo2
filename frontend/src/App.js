@@ -1,12 +1,14 @@
 import React from 'react';
 import Auth from './Container/Auth'
-import IssueBacklogBCL from './Components/BCL/IssueBacklog/IssueBacklogBCL' //remove after done
+import SprintDashboard from './Components/Report/SprintDashboard'
+import SprintModal from './Components/Report/SprintSummaryModal'
 
 function App() {
   return (
     <div className="App">
-      <Auth />
-      {/* <IssueBacklogBCL/> */}
+      {/* <Auth /> */}
+      {/* <SprintDashboard/> */}
+      <SprintModal/>
     </div>
   );
 };
