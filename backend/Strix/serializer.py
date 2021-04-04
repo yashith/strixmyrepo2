@@ -31,7 +31,16 @@ class TicketSerializer(serializers.ModelSerializer):
     ticketMedia = MediaSerializer(source='ticketmedia_set', many=True)
     createdby = UserSerializer(read_only=True, source='externaluser')
     workstatetext = serializers.StringRelatedField(source='workstate')
+    priority = serializers.SerializerMethodField()
+    workstate=serializers.SerializerMethodField()
+    severity=serializers.SerializerMethodField()
 
+    def get_priority(self,obj):
+        return(obj.priority.priority)
+    def get_workstate(self,obj):
+        return(obj.workstate.workstatename)
+    def get_severity(self,obj):
+        return(obj.severity.severity)
     class Meta:
         model = Ticket
         fields = ('__all__')
@@ -59,6 +68,7 @@ class SprintSummarySerializer(serializers.ModelSerializer):
     active = serializers.SerializerMethodField()
     estimated_hours = serializers.SerializerMethodField()
     actual_hours = serializers.SerializerMethodField()
+    ticketlist=TicketSerializer(many=True,read_only=True)
 
     def get_finished(self, obj):
         y = 0
@@ -93,3 +103,4 @@ class SprintSummarySerializer(serializers.ModelSerializer):
     class Meta:
         model = Sprint
         fields = ('__all__')
+        

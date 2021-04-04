@@ -58,6 +58,9 @@ function SprintDashboard() {
               active={sprintlist[i].active}
               edate={sprintlist[i].intialenddate}
               compleated={sprintlist[i].finished}
+              ehours={sprintlist[i].estimated_hours}
+              ahours={sprintlist[i].actual_hours}
+              ticketlist={sprintlist[i].ticketlist}
 
             />);
           }

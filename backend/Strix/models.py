@@ -35,28 +35,26 @@ class Workstate(models.Model):
  
 ################################# Tag Choices ##########################################
 
+class BugType(models.Model):
+	bugtype = models.CharField(max_length=50)
 
-BUGTYPE_METHODS = (
-	('Functional','Functional'),
-	('Performance','Performance'),
-	('Usability','Usability'),
-	('Compatibility','Compatibility'),
-	('Security','Security')
-)
+	def _str_(self):
+		return self.bugtype
 
-PRIORITY_METHODS = (
-	('urgent','urgent'),
-	('high','high'),
-	('medium','medium'),
-	('low','low')
-)
+class Priority(models.Model):
+	priority = models.CharField(max_length=50)
+	level = models.IntegerField(default=1)
 
-SEVERITY_METHODS = (
-	('critical','critical'),
-	('high','high'),
-	('medium','medium'),
-	('low','low')
-)
+	def _str_(self):
+		return self.priority
+
+class Severity(models.Model):
+	severity = models.CharField(max_length=50)
+	level = models.IntegerField(default=1)
+
+	def _str_(self):
+		return self.severity
+
 
 ######################################################################################
 
@@ -64,9 +62,9 @@ class Ticket(models.Model):
 	issuename = models.CharField(max_length=50)
 	issuedescription = models.CharField(max_length=1000)
 	date = models.DateField(auto_now_add=True)
-	bugtype = models.CharField(max_length=50,choices=BUGTYPE_METHODS,blank=True)
-	priority = models.CharField(max_length=50,choices=PRIORITY_METHODS,blank=True)
-	severity = models.CharField(max_length=50,choices=SEVERITY_METHODS,blank=True)
+	bugtype = models.ForeignKey('BugType', default=1, on_delete=models.DO_NOTHING)
+	priority = models.ForeignKey('Priority', default=1, on_delete=models.DO_NOTHING)
+	severity = models.ForeignKey('Severity', default=1, on_delete=models.DO_NOTHING)
 	bspstatus = models.BooleanField(default=False)
 	approval = models.BooleanField(default=False)
 	totaleffort = models.IntegerField()
