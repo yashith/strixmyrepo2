@@ -224,9 +224,9 @@ class TicketViewSet(viewsets.ModelViewSet):
         ticket_current = Ticket.objects.create(
             issuename=data['issuename'],
             issuedescription=data['issuedescription'],
-            bugtype=data['bugtype'],
-            priority=data['priority'],
-            severity=data['severity'],
+            bugtype=BugType.objects.get(id=data['bugtype']),
+            priority=Priority.objects.get(id=data['priority']),
+            severity=Severity.objects.get(id=data['severity']),
             bspstatus=False,
             approval=False,
             totaleffort=data['totaleffort'],

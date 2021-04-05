@@ -72,14 +72,18 @@ function IsseForm(props,) {
             form_data.append('workstate', 2)
             form_data.append('externaluser', 15)
             form_data.append('totaleffort', 10)
-            form_data.append('ticketMedia', values.ticketMedia)
+            // form_data.append('ticketMedia', values.ticketMedia)
 
-            for (let i=0;i<values.ticketMedia.length;i++){
-                form_data.append('ticketMedia', values.ticketMedia[i])
+            if(values.ticketMedia!=null){
+                for (let i=0;i<values.ticketMedia.length;i++){
+                    form_data.append('ticketMedia', values.ticketMedia[i])
+                }
             }
+            
             create_Ticket(form_data);
-            console.log(values.ticketMedia[0])
-            console.log(values.ticketMedia[1])
+            // console.log(values.ticketMedia[0])
+            // console.log(values.ticketMedia[1])
+            console.log(values);
             props.cl();
         },
 
@@ -131,9 +135,12 @@ function IsseForm(props,) {
         }
     }
 
-    const prioritylist = ['low', 'medium', 'high', 'urgent'];
-    const typelist = ['Functional', 'Performance', 'Usability', 'Compatibility', 'Security'];
-    const severitylist = ['critical', 'high', 'medium', 'low']
+    // const prioritylist = ['low', 'medium', 'high', 'urgent'];
+    const prioritylist=[{priority:"Low",id:1},{priority:"Medium",id:2},{priority:"High",id:3},{priority:"Urgent",id:4},]
+    // const typelist = ['Functional', 'Performance', 'Usability', 'Compatibility', 'Security'];
+    const typelist=[{type:"Functional",id:1},{type:"Performance",id:2},{type:"Usability",id:3},{type:"Compatibility",id:4},{type:"Security",id:5},]
+    // const severitylist = ['critical', 'high', 'medium', 'low']
+    const severitylist = [{severity:"critical",id:1},{severity:"high",id:2},{severity:"medium",id:3},{severity:"low",id:4},]
 
     return (
         <div>
@@ -151,7 +158,7 @@ function IsseForm(props,) {
                     <Form.Label>Priority</Form.Label>
                     <Form.Control as="select" name="priority" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.priority} >{/*set error handler*/}
                         <option value="">Select priority</option>
-                        {prioritylist.map((priority) => <option value={priority} label={priority} key={priority} />)}
+                        {prioritylist.map((priority) => <option value={priority.id} label={priority.priority} key={priority} />)}
                     </Form.Control>
                     {formik.errors.priority && formik.touched.priority ? <Form.Text style={warningstyle}>{formik.errors.priority}</Form.Text> : null}
                 </Form.Group>
@@ -161,7 +168,7 @@ function IsseForm(props,) {
                     <Form.Control as="select" name="bugtype" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.bugtype}>{/*set error handler*/}
                         <option value="">Select Type</option>
 
-                        {typelist.map((bugtype) => <option value={bugtype} label={bugtype} key={bugtype} />)}
+                        {typelist.map((bugtype) => <option value={bugtype.id} label={bugtype.type} key={bugtype} />)}
 
                     </Form.Control>
                     {formik.errors.bugtype && formik.touched.bugtype ? <Form.Text style={warningstyle}>{formik.errors.bugtype}</Form.Text> : null}
@@ -171,7 +178,7 @@ function IsseForm(props,) {
                     <Form.Label>Severity</Form.Label>
                     <Form.Control as="select" name="severity" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.severity}>{/*set error handler*/}
                         <option value="">Select severity</option>
-                        {severitylist.map((severity) => <option value={severity} label={severity} key={severity} />)}
+                        {severitylist.map((severity) => <option value={severity.id} label={severity.severity} key={severity} />)}
                     </Form.Control>
                     {formik.errors.severity && formik.touched.severity ? <Form.Text style={warningstyle}>{formik.errors.severity}</Form.Text> : null}
                 </Form.Group>

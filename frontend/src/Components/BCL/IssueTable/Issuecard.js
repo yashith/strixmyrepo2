@@ -11,8 +11,9 @@ function Attachments({attach}){
         //     // </ul>)
         // ))
         let i=0;
-        return(<ul>
-            {attach.map((attach,index)=>(<li><a href={attach.files}>file{index}{attach.file.lastIndexOf('/')+1}</a></li>))}
+        return(
+        <ul>
+            {attach.map((attach,index)=>(<li><a href={attach.files}>Attachment{index}</a></li>))}
         </ul>)  
     }
     else{
