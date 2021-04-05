@@ -6,8 +6,8 @@ import SprintModal from './Components/Report/SprintSummaryModal'
 function App() {
   return (
     <div className="App">
-      {/* <Auth /> */}
-      <SprintDashboard/>
+      <Auth />
+      {/* <SprintDashboard/> */}
       {/* <SprintModal/> */}
     </div>
   );

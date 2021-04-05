@@ -34,6 +34,7 @@ class TicketSerializer(serializers.ModelSerializer):
     priority = serializers.SerializerMethodField()
     workstate=serializers.SerializerMethodField()
     severity=serializers.SerializerMethodField()
+    bugtype=serializers.SerializerMethodField()
 
     def get_priority(self,obj):
         return(obj.priority.priority)
@@ -41,6 +42,8 @@ class TicketSerializer(serializers.ModelSerializer):
         return(obj.workstate.workstatename)
     def get_severity(self,obj):
         return(obj.severity.severity)
+    def get_bugtype(self,obj):
+        return(obj.bugtype.bugtype)
     class Meta:
         model = Ticket
         fields = ('__all__')

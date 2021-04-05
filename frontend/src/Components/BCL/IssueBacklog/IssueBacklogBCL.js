@@ -20,33 +20,33 @@ import Tooltip from '@material-ui/core/Tooltip';
 function bagetype(priority) {
 
   switch (priority) {
-    case 'urgent':
+    case 'Urgent':
       return 'danger';
-    case 'high':
+    case 'High':
       return 'warning';
-    case 'medium':
+    case 'Medium':
       return 'primary'
-    case 'low':
+    case 'Low':
       return 'success'
   }
 }
 function severitytype(severity) {
 
   switch (severity) {
-    case 'critical':
-      return (<Tooltip title="critical"><ArrowUpwardIcon style={{ color: "#dc3545" }} /></Tooltip>);
-    case 'high':
-      return (<Tooltip title="high"><ArrowUpwardIcon style={{ color: "#ffc107" }} /></Tooltip>);
-    case 'medium':
-      return (<Tooltip title="medium"><ArrowDownwardIcon style={{ color: "#007bff" }} /></Tooltip>);
-    case 'low':
-      return (<Tooltip title="low"><ArrowDownwardIcon style={{ color: "#28a745" }} /></Tooltip>);
+    case 'Critical':
+      return (<Tooltip title="Critical"><ArrowUpwardIcon style={{ color: "#dc3545" }} /></Tooltip>);
+    case 'High':
+      return (<Tooltip title="High"><ArrowUpwardIcon style={{ color: "#ffc107" }} /></Tooltip>);
+    case 'Medium':
+      return (<Tooltip title="Medium"><ArrowDownwardIcon style={{ color: "#007bff" }} /></Tooltip>);
+    case 'Low':
+      return (<Tooltip title="Low"><ArrowDownwardIcon style={{ color: "#28a745" }} /></Tooltip>);
   }
 }
 
 
 
-let recordedChunks=[]
+let recordedChunks = []
 function capstreme(stream) {
   let mediaRecorder = new MediaRecorder(stream)
   mediaRecorder.ondataavailable = handleDataAvailable;
@@ -124,10 +124,10 @@ function IssueBacklogBCL() {
           summary={buglist[i].issuedescription}
           variant={bagetype(buglist[i].priority)}
           severity={buglist[i].severity}
-          reporter={buglist[i].createdby.fullname} 
+          reporter={buglist[i].createdby.fullname}
           created={buglist[i].date}
           status={buglist[i].workstatetext}
-          attachment={buglist[i].ticketMedia}/>);
+          attachment={buglist[i].ticketMedia} />);
       }
     }
 
@@ -144,33 +144,33 @@ function IssueBacklogBCL() {
   function assignsort(list) {
     for (let i = 0; i < list.length; i++) {
       switch (list[i].priority) {
-        case "urgent":
-          list[i].priorityid = 1;
-          break;
-        case "high":
-          list[i].priorityid = 2;
-          break;
-        case "medium":
-          list[i].priorityid = 3;
-          break;
-        case "low":
-          list[i].priorityid = 4;
-          break;
-      }
-      switch (list[i].severity) {
-        case "critical":
-          list[i].severityid = 1;
-          break;
-        case "high":
-          list[i].severityid = 2;
-          break;
-        case "medium":
-          list[i].severityid = 3;
-          break;
-        case "low":
-          list[i].severityid = 4;
-          break;
-      }
+        case "Urgent":
+            list[i].priorityid = 1;
+            break;
+        case "High":
+            list[i].priorityid = 2;
+            break;
+        case "Medium":
+            list[i].priorityid = 3;
+            break;
+        case "Low":
+            list[i].priorityid = 4;
+            break;
+    }
+    switch (list[i].severity) {
+        case "Critical":
+            list[i].severityid = 1;
+            break;
+        case "High":
+            list[i].severityid = 2;
+            break;
+        case "Medium":
+            list[i].severityid = 3;
+            break;
+        case "Low":
+            list[i].severityid = 4;
+            break;
+    }
     }
   }
   //*********************************

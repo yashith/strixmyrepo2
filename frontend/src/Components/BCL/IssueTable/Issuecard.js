@@ -12,7 +12,7 @@ function Attachments({attach}){
         // ))
         let i=0;
         return(<ul>
-            {attach.map((attach,index)=>(<li><a href={attach.files}>file{index}</a></li>))}
+            {attach.map((attach,index)=>(<li><a href={attach.files}>file{index}{attach.file.lastIndexOf('/')+1}</a></li>))}
         </ul>)  
     }
     else{
@@ -28,6 +28,7 @@ function IssueCard(props) {
                 <Container>
                     <Row>
                         <Col>
+                            <Card className='p-2 b-2'>
                             <Row>
                                 <Col>
                                     <h5>Project : {props.name}</h5>
@@ -49,6 +50,7 @@ function IssueCard(props) {
                                     <h5>Severity : <span>{props.severity}</span></h5>
                                 </Col>
                             </Row>
+                            </Card>
                             <Row>
                                 <Col>
                                     <h5>Summery</h5>
