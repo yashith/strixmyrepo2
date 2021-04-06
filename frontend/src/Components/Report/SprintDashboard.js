@@ -33,7 +33,7 @@ function SprintDashboard() {
         "project": '',
         "ticketlist": []
     }
-    const [sprintlist, setsprintlist] = useState([initial])
+    const [sprintlist, setsprintlist] = useState([])
 
     async function getSprints() {
         let b = await getSprintSummary(1);
@@ -67,33 +67,58 @@ function SprintDashboard() {
         }
     
       }
+    
+    if(sprintlist != null){
+        return (
+            <div>
+                <link
+                    rel="stylesheet"
+                    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+                />
+                <MaterialTable
+                    columns={
+                        [{ title: 'Id', field: 'id' },
+                        { title: 'Sprint', field: 'name' },
+                        { title: 'Start date', field: 'startdate', field: 'enddate' },
+                        {
+                            title: 'Progress', render: rowData =>
+                                <ProgressBar>
+                                    <ProgressBar striped variant="success" now={rowData.finished/rowData.total *100} key={1}  label={"Finished : ",rowData.finished}/>
+                                    <ProgressBar striped variant="danger" now={rowData.active/rowData.total *100} key={2} label={"Active : ",rowData.active} />
+                                </ProgressBar>
+                        }]
+                    }
+                    data={sprintlist}
+                    title="sprints"
+                    onRowClick={(event, rowData) => { sprintdetails(rowData.id) }}
+                />
+    
+            </div>
+        )
+    }
+    else{
+        return (
+            <div>
+                <link
+                    rel="stylesheet"
+                    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+                />
+                <MaterialTable
+                    columns={
+                        [{ title: 'Id'},
+                        { title: 'Sprint'},
+                        { title: 'Start date'},
+                        {title: 'Progress'}]
+                    }
+                    data={sprintlist}
+                    title="sprints"
+                />
+    
+            </div>
+        )
+    }
 
-    return (
-        <div>
-            <link
-                rel="stylesheet"
-                href="https://fonts.googleapis.com/icon?family=Material+Icons"
-            />
-            <MaterialTable
-                columns={
-                    [{ title: 'Id', field: 'id' },
-                    { title: 'Sprint', field: 'name' },
-                    { title: 'Start date', field: 'startdate', field: 'enddate' },
-                    {
-                        title: 'Progress', render: rowData =>
-                            <ProgressBar>
-                                <ProgressBar striped variant="success" now={rowData.finished/rowData.total *100} key={1}  label={"Finished : ",rowData.finished}/>
-                                <ProgressBar striped variant="danger" now={rowData.active/rowData.total *100} key={2} label={"Active : ",rowData.active} />
-                            </ProgressBar>
-                    }]
-                }
-                data={sprintlist}
-                title="sprints"
-                onRowClick={(event, rowData) => { sprintdetails(rowData.id) }}
-            />
-
-        </div>
-    )
+    
 
 
 }

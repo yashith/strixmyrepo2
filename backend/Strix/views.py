@@ -273,4 +273,17 @@ class SprintSummary(viewsets.ModelViewSet):
         return queryset
 
 
+class BugPerMonth(viewsets.ModelViewSet):
+    queryset = Ticket.objects.all()
+    serializer_class = TicketSerializer
+    
+    def get_queryset(self):  # filter by date
+        queryset = self.queryset
+        filter_value1 = self.request.query_params.get('date1', None)
+        filter_value2 = self.request.query_params.get('date2', None)
+        if filter_value1 and filter_value2 is not None:
+            queryset = queryset.filter(date__gte=filter_value1,date__lte=filter_value2)
+        return queryset
+
+
         

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path,include,re_path
 from . import views
 
 
@@ -29,6 +29,9 @@ getUser=views.UserViewset.as_view({
 getSprintSummary=views.SprintSummary.as_view({
     'get': 'list',
 })
+getBugPerMonth=views.BugPerMonth.as_view({
+    'get': 'list',
+})
 
 
 
@@ -53,6 +56,8 @@ urlpatterns = [
     path('getTicketMedia/',getTicketMedia,name="get_ticket_media"),
     path('getUsers/',getUser,name="get_users"),
     path('getSprintSummary/',getSprintSummary,name="get_Sprint_Sum"),
+    # re_path(r'^getBugPerMonth/(?P<sk>[\w\-\.]+)/(?P<ek>[\w\-\.]+)/$',getBugPerMonth,name="get_BugsperMonth")
+    path('getBugPerMonth/',getBugPerMonth,name="get_Sprint_Sum")
 ]
 
 

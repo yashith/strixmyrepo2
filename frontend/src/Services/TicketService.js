@@ -56,17 +56,26 @@ function reducer(state, action) {
 
 //fetch tickets by Y
 export default async function getTickets(pid) {
-    
+
 
     // API.get('getTicket/')
     //     .then(response => { arr.push(response.data) })
     //     .catch(err=>{console.log(err)})
     // return arr
-    const response = await API.get('getTicket/?project='+pid);
-    const arrr=response.data; 
-    return(arrr);
+    const response = await API.get('getTicket/?project=' + pid);
+    const arrr = response.data;
+    return (arrr);
 }
 
-export async function createTicket(data){
-    await API.post('getTicket/',data);
+export async function createTicket(data) {
+    await API.post('getTicket/', data);
+}
+
+export async function getMonthlyBugSummary(year, month) {
+    var date= new Date(year,month+1,0);
+    var yyyy=date.getUTCFullYear();
+    var mm= date.getUTCMonth();
+    var dd=date.getUTCDate();
+    var data = await API.get('getBugPerMonth/?date1='+year+'-'+month+'-01&date2='+yyyy+'-'+mm+'-'+dd)
+    return(data.data)
 }
