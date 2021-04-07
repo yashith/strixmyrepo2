@@ -1,16 +1,11 @@
 import React, { useState, useEffect, } from 'react';
 import { Table, Row, Col, Button, Card, NavLink, Form, FormControl, Modal, Badge, ProgressBar } from 'react-bootstrap';
-// import Issuecard from '../IssueTable/Issuecard'
-import { buildQueries, render } from '@testing-library/react';
-import { BrowserRouter as Router, Route, Link, Switch, useLocation, useParams } from "react-router-dom";
-// import { GetProjetDetails } from '../../../Services/ProjectService';
 import MaterialTable, { MTable, MTableToolbar } from 'material-table'
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import Tooltip from '@material-ui/core/Tooltip';
 import { getMonthlyBugSummary } from '../../Services/TicketService'
-import SprintModal from './SprintSummaryModal';
-import { FormGroup,CircularProgress } from '@material-ui/core';
+import { FormGroup, Chip } from '@material-ui/core';
 
 
 
@@ -21,21 +16,23 @@ function MonthlyBugSummary() {
   const [year, setyear] = useState(2020)
   const [month, setmonth] = useState(11)
   const [isloading, setisloading] = useState(false)
+  const [count, setcount] = useState({total:'',open:'',closed:''})
 
 
 
-  async function getBugs(year,month) {
+  async function getBugs(year, month) {
     setbuglist([])
+    setisloading(true)
     let a = await getMonthlyBugSummary(year, month)
-    console.log(a)
     setbuglist(a)
+    countbugs(a);
     setisloading(false)
   }
-
+  
   useEffect(() => {
 
     let isMounted = true; // cleanup mounting warning
-    // getBugs();
+    getBugs(year,month);
     return () => { isMounted = false }
   }, [])
 
@@ -73,11 +70,29 @@ function MonthlyBugSummary() {
     setmonth(e.target.value)
 
   }
-  function handleSubmit(){
+  function handleSubmit() {
     setbuglist([])
     setisloading(true)
-    getBugs(year,month);
+    getBugs(year, month);
   }
+  function countbugs(buglist){
+    let total=buglist.length;
+    let closed=0
+    if (buglist!=null){
+      buglist.forEach((bug)=>{
+        if(bug.workstate==4){
+          closed++
+        }
+        total++
+      })
+    }
+    let open=total-closed
+    setcount({total:total,open:open,closed:closed})
+
+  }
+  
+  let yearArray=[2020,2021,2022,2023]
+  
   return (
     <>
       <link
@@ -103,15 +118,18 @@ function MonthlyBugSummary() {
               <div>
                 <MTableToolbar {...props} />
                 <div style={{ margin: '10px', display: 'flex' }}>
-                  <Form style={{ margin: '10px', display: 'flex' }}  onSubmit={handleSubmit}>
+                  <Form style={{ margin: '10px', display: 'flex' }} onSubmit={handleSubmit}>
                     <FormGroup style={{ padding: '10px' }}>
 
                       <Form.Label>Year</Form.Label>
                       <Form.Control as='select' name='year' onChange={handleYear} value={year}>
-                        <option value='2020'>2020</option>
+                        {yearArray.map((year)=>{
+                          return <option value={year}>{year}</option>
+                        })}           
+                        {/* <option value='2020'>2020</option>
                         <option value='2021'>2021</option>
                         <option value='2022'>2022</option>
-                        <option value='2023'>2023</option>
+                        <option value='2023'>{new Date().getFullYear()}</option> */}
                       </Form.Control>
                     </FormGroup>
                     <FormGroup style={{ padding: '10px' }}>
@@ -131,10 +149,15 @@ function MonthlyBugSummary() {
                         <option value='12'>12</option>
                       </Form.Control>
                     </FormGroup>
-                    <div>
+                    <div style={{paddingTop:'40px'}}>
                       <Button type='submit'>Filter</Button>
                     </div>
                   </Form>
+                  <div style={{paddingTop:'50px', display:'flex'}}>
+                    <h5><Badge variant='primary' className="m-3">Total :  {count.total}</Badge></h5>  
+                    <h5><Badge variant='success' className="m-3">Closed :   {count.closed}</Badge></h5> 
+                    <h5><Badge variant='danger' className="m-3">Open :   {count.open}</Badge> </h5>
+                  </div>
                 </div>
               </div>
             )
