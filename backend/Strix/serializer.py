@@ -64,7 +64,52 @@ class ProjectSerializer(serializers.ModelSerializer):
         # description','projectname
 
 
-class SprintSummarySerializer(serializers.ModelSerializer):
+# class SprintSummarySerializer(serializers.ModelSerializer):
+
+#     finished = serializers.SerializerMethodField()
+#     total = serializers.SerializerMethodField()
+#     active = serializers.SerializerMethodField()
+#     estimated_hours = serializers.SerializerMethodField()
+#     actual_hours = serializers.SerializerMethodField()
+#     ticketlist=TicketSerializer(many=True,read_only=True)
+
+#     def get_finished(self, obj):
+#         y = 0
+#         for x in obj.ticketlist.all():
+#             if(x.workstate.id == 4 ):
+#                 y += 1
+#         return (y)
+
+#     def get_total(self, obj):
+#         return(obj.ticketlist.all().count())
+
+#     def get_active(self, obj):
+#         y = 0
+#         for x in obj.ticketlist.all():
+#             if(x.workstate.id != 4):
+#                 y += 1
+#         return(y)
+
+#     def get_estimated_hours(self, obj):
+#         enddate = obj.intialenddate
+#         startdate = obj.startdate
+#         return((enddate-startdate)/3600)
+
+#     def get_actual_hours(self, obj):
+#         startdate = obj.startdate
+#         enddate = obj.enddate
+#         if (enddate is not None and (enddate-startdate) is not None ):
+#             return((enddate-startdate)/3600)
+#         else:
+#             return('Sprint is not finished')
+
+#     class Meta:
+#         model = Sprint
+#         fields = ('__all__')
+        
+
+        
+class SprintSummarySerializer(serializers.Serializer):
 
     finished = serializers.SerializerMethodField()
     total = serializers.SerializerMethodField()
@@ -103,7 +148,10 @@ class SprintSummarySerializer(serializers.ModelSerializer):
         else:
             return('Sprint is not finished')
 
-    class Meta:
-        model = Sprint
-        fields = ('__all__')
-        
+    name=serializers.CharField(max_length=50)
+    startdate = serializers.DateField(read_only=True)
+    intialenddate = serializers.DateField(read_only=True)
+    enddate=serializers.DateField(read_only=True)
+    id=serializers.IntegerField(read_only=True)
+    
+

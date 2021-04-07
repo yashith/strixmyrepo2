@@ -8,9 +8,9 @@ function App() {
   return (
     <div className="App">
       {/* <Auth /> */}
-      {/* <SprintDashboard/> */}
+      <SprintDashboard/>
       {/* <SprintModal/> */}
-      <MonthlyBugSummary/>
+      {/* <MonthlyBugSummary/> */}
     </div>
   );
 };
