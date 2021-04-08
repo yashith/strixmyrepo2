@@ -27,7 +27,42 @@ class UserSerializer((serializers.ModelSerializer)):
         fields = ['first_name', 'last_name', 'fullname']
 
 
-class TicketSerializer(serializers.ModelSerializer):
+# class TicketSerializer(serializers.ModelSerializer):
+#     ticketMedia = MediaSerializer(source='ticketmedia_set', many=True)
+#     createdby = UserSerializer(read_only=True, source='externaluser')
+#     workstatetext = serializers.StringRelatedField(source='workstate')
+#     priority = serializers.SerializerMethodField()
+#     severity=serializers.SerializerMethodField()
+#     bugtype=serializers.SerializerMethodField()
+#     workstatetext= serializers.SerializerMethodField()
+
+#     def get_priority(self,obj):
+#         return(obj.priority.priority)
+#     def get_severity(self,obj):
+#         return(obj.severity.severity)
+#     def get_bugtype(self,obj):
+#         return(obj.bugtype.bugtype)
+#     def get_workstatetext(self,obj):
+#         return(obj.workstate.workstatename)
+#     class Meta:
+#         model = Ticket
+#         fields = ('__all__')
+#         extra_fields = ('ticketMedia', 'createdby', 'workstatetext')
+
+#         def create(self, validated_data):
+#             ticketMedia = validated_data.pop('ticketMedia')
+#             ticket = Ticket.objects.create(**validated_data)
+#             for media in ticketMedia:
+#                 TicketMedia.objects.create(**media, issuename=ticket)
+#             return ticket
+
+class TicketSerializer(serializers.Serializer):
+    id=serializers.IntegerField()
+    issuename=serializers.CharField()
+    issuedescription=serializers.CharField()
+    date = serializers.DateField()
+    project=serializers.SerializerMethodField()
+    workstate=serializers.SerializerMethodField()
     ticketMedia = MediaSerializer(source='ticketmedia_set', many=True)
     createdby = UserSerializer(read_only=True, source='externaluser')
     workstatetext = serializers.StringRelatedField(source='workstate')
@@ -44,17 +79,21 @@ class TicketSerializer(serializers.ModelSerializer):
         return(obj.bugtype.bugtype)
     def get_workstatetext(self,obj):
         return(obj.workstate.workstatename)
-    class Meta:
-        model = Ticket
-        fields = ('__all__')
-        extra_fields = ('ticketMedia', 'createdby', 'workstatetext')
+    def get_project(self,obj):
+        return(obj.project.id)
+    def get_workstate(self,obj):
+        return(obj.workstate.id)
+    
 
-        def create(self, validated_data):
-            ticketMedia = validated_data.pop('ticketMedia')
-            ticket = Ticket.objects.create(**validated_data)
-            for media in ticketMedia:
-                TicketMedia.objects.create(**media, issuename=ticket)
-            return ticket
+
+
+    def create(self, validated_data):
+        ticketMedia = validated_data.pop('ticketMedia')
+        ticket = Ticket.objects.create(**validated_data)
+        for media in ticketMedia:
+            TicketMedia.objects.create(**media, issuename=ticket)
+        return ticket
+    
 
 
 class ProjectSerializer(serializers.ModelSerializer):

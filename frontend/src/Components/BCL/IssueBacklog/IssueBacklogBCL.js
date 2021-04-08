@@ -84,6 +84,7 @@ function IssueBacklogBCL() {
   const [isModelOpen, setisModelOpen] = useState(false);
   const [buglist, setbuglist] = useState([])
   const [pdetails, setpdetails] = useState([{ description: "", projectname: "" }])
+  const [isLoading, setisLoading] = useState(false)
   let loc = useLocation().project
 
   //used for React-table remove if unnecessary
@@ -180,9 +181,11 @@ function IssueBacklogBCL() {
 
   }
   async function fetchtickets() {
+    setisLoading(true)
     let a = await getTickets(sessionStorage.getItem("loc"))
     assignsort(a)
     setbuglist(a)
+    setisLoading(false)
 
   }
   async function fetch_project_details() {
@@ -249,6 +252,7 @@ function IssueBacklogBCL() {
 
                     ]}
                     data={buglist}
+                    isLoading={isLoading}
                     title="Issues"
                     onRowClick={(event, rowData) => { tableticket(rowData.id) }}
                   />

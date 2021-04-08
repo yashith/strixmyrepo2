@@ -7,8 +7,8 @@ import MonthlyBugSummary from './Components/Report/MonthlyBugSummary'
 function App() {
   return (
     <div className="App">
-      {/* <Auth /> */}
-      <SprintDashboard/>
+      <Auth />
+      {/* <SprintDashboard/> */}
       {/* <SprintModal/> */}
       {/* <MonthlyBugSummary/> */}
     </div>

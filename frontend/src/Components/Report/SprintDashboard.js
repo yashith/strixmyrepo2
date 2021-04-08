@@ -16,6 +16,7 @@ import SprintModal from './SprintSummaryModal';
 function SprintDashboard() {
 
     const [isModelOpen, setisModelOpen] = useState(false);
+    const [isLoading, setisLoading] = useState(false)
     const initial = {
         "id": '',
         "finished": '',
@@ -36,8 +37,10 @@ function SprintDashboard() {
     const [sprintlist, setsprintlist] = useState([])
 
     async function getSprints() {
-        let b = await getSprintSummary(1);
+        setisLoading(true)
+        let b = await getSprintSummary();
         setsprintlist(b)
+        setisLoading(false)
     }
 
     useEffect(() => {
@@ -91,6 +94,7 @@ function SprintDashboard() {
                     data={sprintlist}
                     title="sprints"
                     onRowClick={(event, rowData) => { sprintdetails(rowData.id) }}
+                    isLoading={isLoading}
                 />
     
             </div>
