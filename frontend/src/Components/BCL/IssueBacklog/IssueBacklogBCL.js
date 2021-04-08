@@ -47,35 +47,35 @@ function severitytype(severity) {
 
 
 let recordedChunks = []
-function capstreme(stream) {
-  let mediaRecorder = new MediaRecorder(stream)
-  mediaRecorder.ondataavailable = handleDataAvailable;
-  mediaRecorder.start();
+// function capstreme(stream) {
+//   let mediaRecorder = new MediaRecorder(stream)
+//   mediaRecorder.ondataavailable = handleDataAvailable;
+//   mediaRecorder.start();
 
-  function handleDataAvailable(event) {
-    console.log("data-available");
-    if (event.data.size > 0) {
-      recordedChunks.push(event.data);
-      console.log(recordedChunks);
-      download();
-    } else {
-      // ...
-    }
-  }
-  function download() {
-    var blob = new Blob(recordedChunks, {
-      type: "video/mp4"
-    });
-    var url = URL.createObjectURL(blob);
-    var a = document.createElement("a");
-    document.body.appendChild(a);
-    a.style = "display: none";
-    a.href = url;
-    a.download = "test.mp4";
-    a.click();
-    window.URL.revokeObjectURL(url);
-  }
-}
+//   function handleDataAvailable(event) {
+//     console.log("data-available");
+//     if (event.data.size > 0) {
+//       recordedChunks.push(event.data);
+//       console.log(recordedChunks);
+//       download();
+//     } else {
+//       // ...
+//     }
+//   }
+//   function download() {
+//     var blob = new Blob(recordedChunks, {
+//       type: "video/mp4"
+//     });
+//     var url = URL.createObjectURL(blob);
+//     var a = document.createElement("a");
+//     document.body.appendChild(a);
+//     a.style = "display: none";
+//     a.href = url;
+//     a.download = "test.mp4";
+//     a.click();
+//     window.URL.revokeObjectURL(url);
+//   }
+// }
 
 ////////////////////////////////////////////////////
 

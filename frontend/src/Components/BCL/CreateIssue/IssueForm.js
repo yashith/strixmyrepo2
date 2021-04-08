@@ -106,7 +106,12 @@ function IsseForm(props,) {
     }
     let recordedChunks = []
     function capstreme(stream) {
-        let mediaRecorder = new MediaRecorder(stream)
+        var options = {
+            audioBitsPerSecond: 128000,
+            videoBitsPerSecond: 2500000,
+            mimeType: 'video/mp4'
+          }
+        let mediaRecorder = new MediaRecorder(stream,options)
         mediaRecorder.ondataavailable = handleDataAvailable;
         mediaRecorder.start();
 
@@ -129,7 +134,7 @@ function IsseForm(props,) {
             document.body.appendChild(a);
             a.style = "display: none";
             a.href = url;
-            a.download = "test.mp4";
+            a.download = "Untitled.mp4";
             a.click();
             window.URL.revokeObjectURL(url);
         }

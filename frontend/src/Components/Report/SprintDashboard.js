@@ -35,10 +35,43 @@ function SprintDashboard() {
         "ticketlist": []
     }
     const [sprintlist, setsprintlist] = useState([])
+    function assignsort(list) {
+        for (let i = 0; i < list.length; i++) {
+          switch (list[i].priority) {
+            case "Urgent":
+                list[i].priorityid = 1;
+                break;
+            case "High":
+                list[i].priorityid = 2;
+                break;
+            case "Medium":
+                list[i].priorityid = 3;
+                break;
+            case "Low":
+                list[i].priorityid = 4;
+                break;
+        }
+        switch (list[i].severity) {
+            case "Critical":
+                list[i].severityid = 1;
+                break;
+            case "High":
+                list[i].severityid = 2;
+                break;
+            case "Medium":
+                list[i].severityid = 3;
+                break;
+            case "Low":
+                list[i].severityid = 4;
+                break;
+        }
+        }
+      }
 
     async function getSprints() {
         setisLoading(true)
         let b = await getSprintSummary();
+        assignsort(b)
         setsprintlist(b)
         setisLoading(false)
     }

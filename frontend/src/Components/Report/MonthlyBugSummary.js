@@ -18,12 +18,44 @@ function MonthlyBugSummary() {
   const [isloading, setisloading] = useState(false)
   const [count, setcount] = useState({total:'',open:'',closed:''})
 
-
+  function assignsort(list) {
+    for (let i = 0; i < list.length; i++) {
+      switch (list[i].priority) {
+        case "Urgent":
+            list[i].priorityid = 1;
+            break;
+        case "High":
+            list[i].priorityid = 2;
+            break;
+        case "Medium":
+            list[i].priorityid = 3;
+            break;
+        case "Low":
+            list[i].priorityid = 4;
+            break;
+    }
+    switch (list[i].severity) {
+        case "Critical":
+            list[i].severityid = 1;
+            break;
+        case "High":
+            list[i].severityid = 2;
+            break;
+        case "Medium":
+            list[i].severityid = 3;
+            break;
+        case "Low":
+            list[i].severityid = 4;
+            break;
+    }
+    }
+  }
 
   async function getBugs(year, month) {
     setbuglist([])
     setisloading(true)
     let a = await getMonthlyBugSummary(year, month)
+    assignsort(a)
     setbuglist(a)
     countbugs(a);
     setisloading(false)
@@ -62,6 +94,7 @@ function MonthlyBugSummary() {
         return (<Tooltip title="Low"><ArrowDownwardIcon style={{ color: "#28a745" }} /></Tooltip>);
     }
   }
+  
 
   function handleYear(e) {
     setyear(e.target.value)
@@ -70,6 +103,7 @@ function MonthlyBugSummary() {
     setmonth(e.target.value)
 
   }
+  
   function handleSubmit() {
     setbuglist([])
     setisloading(true)
@@ -104,8 +138,8 @@ function MonthlyBugSummary() {
           { title: 'Id', field: 'id' },
           { title: 'Title', field: 'issuename' },
           { title: "Date", field: "date" },
-          { title: 'Priority', field: 'priority', render: rowData => <Badge variant={bagetype(rowData.priority)}>{rowData.priority}</Badge> },
-          { title: 'Severity', field: 'severity', render: rowData => severitytype(rowData.severity) }
+          { title: 'Priority', field: 'priority', render: rowData => <Badge variant={bagetype(rowData.priority)}>{rowData.priority}</Badge>,customSort: (a, b) => a.priorityid - b.priorityid },
+          { title: 'Severity', field: 'severity', render: rowData => severitytype(rowData.severity),customSort: (a, b) => a.severityid - b.severityid }
 
 
         ]}
